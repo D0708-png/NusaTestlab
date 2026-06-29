@@ -19,13 +19,19 @@ Scope:
 
 ## v0.2.0 - AI Testing Expansion
 
-Planned:
+Status: Released
 
-- AI response accuracy testing
+Scope:
+
+- AI response testing engine
+- AI dry-run and live modes
 - prompt injection testing
-- AI tenant boundary checks
-- AI hallucination detection baseline
-- AI answer grounding validation
+- expected refusal validation
+- forbidden content validation
+- forbidden regex pattern validation
+- dataset-grounded AI scenario generation
+- AI groundedness testing
+- JSON and Markdown AI reports
 
 ## v0.3.0 - Performance Testing
 
@@ -36,6 +42,7 @@ Planned:
 - concurrent cashier simulation
 - transaction throughput report
 - endpoint latency report
+- basic performance threshold validation
 
 ## v0.4.0 - Dashboard and Risk Scoring
 

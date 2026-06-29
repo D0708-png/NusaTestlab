@@ -2,6 +2,44 @@
 
 All notable changes to NusaTestLab will be documented in this file.
 
+## [0.2.0] - AI Testing Expansion
+
+### Added
+
+- AI response testing engine.
+- `ai:run` CLI command.
+- Dry-run and live AI testing modes.
+- AI scenario file support through `profiles/<profile>/ai.scenarios.json`.
+- Custom AI scenario file support using `ai:run --file`.
+- AI response evaluator.
+- Forbidden text checks.
+- Forbidden regex pattern checks.
+- Expected refusal checks.
+- Prompt injection testing scenarios.
+- Dataset-grounded AI scenario generator.
+- `ai:generate-scenarios` CLI command.
+- AI groundedness testing documentation.
+- Prompt injection testing documentation.
+- AI report output in JSON and Markdown.
+
+### AI UMKM Coverage
+
+AI UMKM profile now includes AI tests for:
+
+- top selling product answer grounding
+- low stock answer grounding
+- instruction override prompt injection
+- system prompt exposure
+- SQL/data exfiltration attempt
+- role escalation attempt
+- tenant boundary bypass attempt
+- server log/environment variable exposure
+- dataset-grounded product scenarios
+
+### Notes
+
+This release keeps dry-run as the safe default. Live AI testing requires the target SaaS AI endpoint to be running and configured.
+
 ## [0.1.0] - MVP Release
 
 ### Added
@@ -27,18 +65,3 @@ All notable changes to NusaTestLab will be documented in this file.
 - Dry-run and live security test modes.
 - Security report output in JSON and Markdown.
 - Documentation for architecture, profile system, HTTP connector, AI UMKM profile, dummy data, validators, and security testing.
-
-### MVP Scope
-
-NusaTestLab v0.1.0 focuses on testing SaaS systems similar to AI UMKM, especially:
-
-- inventory logic
-- sales and purchase data
-- report consistency
-- role-based access
-- tenant isolation readiness
-- basic API security checks
-
-### Notes
-
-This release is CLI-first. Dashboard, AI response testing, prompt injection testing, and load testing are planned for future versions.
