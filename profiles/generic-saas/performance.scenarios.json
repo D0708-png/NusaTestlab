@@ -1,0 +1,20 @@
+﻿{
+  "scenarios": [
+    {
+      "id": "generic-health-check-performance",
+      "name": "Generic health check baseline performance",
+      "module": "performance",
+      "severity": "medium",
+      "tags": ["performance", "health"],
+      "method": "GET",
+      "path": "/health",
+      "role": "none",
+      "expectedStatus": 200,
+      "requests": 10,
+      "concurrency": 2,
+      "maxAverageMs": 300,
+      "maxP95Ms": 800,
+      "maxErrorRate": 0
+    }
+  ]
+}

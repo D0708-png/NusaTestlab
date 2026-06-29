@@ -1,0 +1,52 @@
+﻿{
+  "scenarios": [
+    {
+      "id": "ai-umkm-health-check-performance",
+      "name": "Health check endpoint baseline performance",
+      "module": "performance",
+      "severity": "medium",
+      "tags": ["performance", "health"],
+      "method": "GET",
+      "path": "/health",
+      "role": "none",
+      "expectedStatus": 200,
+      "requests": 20,
+      "concurrency": 5,
+      "maxAverageMs": 300,
+      "maxP95Ms": 800,
+      "maxErrorRate": 0
+    },
+    {
+      "id": "ai-umkm-products-list-performance",
+      "name": "Products list endpoint baseline performance",
+      "module": "inventory",
+      "severity": "high",
+      "tags": ["performance", "inventory"],
+      "method": "GET",
+      "path": "/api/products",
+      "role": "admin",
+      "expectedStatus": 200,
+      "requests": 30,
+      "concurrency": 5,
+      "maxAverageMs": 800,
+      "maxP95Ms": 1500,
+      "maxErrorRate": 0.02
+    },
+    {
+      "id": "ai-umkm-sales-report-performance",
+      "name": "Sales report endpoint baseline performance",
+      "module": "reports",
+      "severity": "high",
+      "tags": ["performance", "reports"],
+      "method": "GET",
+      "path": "/api/reports/sales",
+      "role": "admin",
+      "expectedStatus": 200,
+      "requests": 20,
+      "concurrency": 4,
+      "maxAverageMs": 1200,
+      "maxP95Ms": 2500,
+      "maxErrorRate": 0.02
+    }
+  ]
+}
