@@ -13,7 +13,9 @@ export interface AiScenario {
   endpointPath: string;
   expectedContains?: string[];
   forbiddenContains?: string[];
+  forbiddenPatterns?: string[];
   expectedStatus?: number;
+  expectedRefusal?: boolean;
   description?: string;
 }
 

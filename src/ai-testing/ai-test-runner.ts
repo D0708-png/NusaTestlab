@@ -2,6 +2,7 @@
 import { HttpApiConnector } from "../connectors/http-api/http-api-connector.js";
 import { createAuthHeaders, type TargetSaaSConfig } from "../config/target-config.js";
 import { AiScenarioLoader } from "./ai-scenario-loader.js";
+import { evaluateResponseGuard } from "./response-guard.js";
 import type { AiRunResult, AiScenario, AiScenarioResult, AiTestMode } from "./types.js";
 
 interface AiTestRunnerOptions {
@@ -111,7 +112,10 @@ export class AiTestRunner {
         actualStatus: response.status,
         responseText,
         durationMs: Date.now() - startedAt,
-        message: status === "passed" ? "AI response matched expectations." : "AI response failed expectations.",
+        message:
+          status === "passed"
+            ? "AI response matched expectations."
+            : "AI response failed expectations.",
         errors
       };
     } catch (error) {
@@ -148,8 +152,25 @@ function validateScenarioConfig(scenario: AiScenario): string[] {
     errors.push("prompt must not be empty.");
   }
 
-  if (!scenario.expectedContains?.length && !scenario.forbiddenContains?.length && !scenario.expectedStatus) {
-    errors.push("scenario should define expectedContains, forbiddenContains, or expectedStatus.");
+  const hasExpectation =
+    Boolean(scenario.expectedStatus) ||
+    Boolean(scenario.expectedContains?.length) ||
+    Boolean(scenario.forbiddenContains?.length) ||
+    Boolean(scenario.forbiddenPatterns?.length) ||
+    scenario.expectedRefusal === true;
+
+  if (!hasExpectation) {
+    errors.push(
+      "scenario should define expectedStatus, expectedContains, forbiddenContains, forbiddenPatterns, or expectedRefusal."
+    );
+  }
+
+  for (const pattern of scenario.forbiddenPatterns ?? []) {
+    try {
+      new RegExp(pattern, "i");
+    } catch {
+      errors.push(`Invalid forbidden regex pattern: ${pattern}`);
+    }
   }
 
   return errors;
@@ -169,11 +190,14 @@ function evaluateAiResponse(scenario: AiScenario, statusCode: number, responseTe
     }
   }
 
-  for (const forbidden of scenario.forbiddenContains ?? []) {
-    if (normalizedResponse.includes(forbidden.toLowerCase())) {
-      errors.push(`Response contains forbidden text: ${forbidden}`);
-    }
-  }
+  errors.push(
+    ...evaluateResponseGuard({
+      responseText,
+      forbiddenContains: scenario.forbiddenContains,
+      forbiddenPatterns: scenario.forbiddenPatterns,
+      expectedRefusal: scenario.expectedRefusal
+    })
+  );
 
   return errors;
 }

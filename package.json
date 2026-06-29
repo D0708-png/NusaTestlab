@@ -16,7 +16,9 @@
     "generate:data": "tsx src/index.ts generate:data",
     "validate:inventory": "tsx src/index.ts validate:inventory",
     "validate:reports": "tsx src/index.ts validate:reports",
-    "security:dry": "tsx src/index.ts security:run --mode dry-run"
+    "security:dry": "tsx src/index.ts security:run --mode dry-run",
+    "ai:dry": "tsx src/index.ts ai:run --mode dry-run",
+    "ai:generic": "tsx src/index.ts ai:run -p generic-saas --mode dry-run"
   },
   "keywords": [
     "saas-testing",

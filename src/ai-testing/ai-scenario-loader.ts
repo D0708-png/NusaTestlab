@@ -16,7 +16,9 @@ const aiScenarioSchema = z.object({
   endpointPath: z.string().min(1),
   expectedContains: z.array(z.string()).optional(),
   forbiddenContains: z.array(z.string()).optional(),
+  forbiddenPatterns: z.array(z.string()).optional(),
   expectedStatus: z.number().int().min(100).max(599).optional(),
+  expectedRefusal: z.boolean().optional(),
   description: z.string().optional()
 });
 
