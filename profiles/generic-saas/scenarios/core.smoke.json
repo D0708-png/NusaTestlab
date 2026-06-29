@@ -1,0 +1,25 @@
+﻿{
+  "id": "generic-saas-core-smoke",
+  "name": "Generic SaaS profile core smoke test",
+  "module": "core",
+  "severity": "low",
+  "tags": ["smoke", "core", "generic-saas"],
+  "steps": [
+    {
+      "id": "profile-name-contains-saas",
+      "name": "Profile name should contain SaaS",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": "generic-saas",
+      "expected": "saas"
+    },
+    {
+      "id": "basic-assertion-engine-check",
+      "name": "Assertion engine should compare simple values",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": "ready",
+      "expected": "ready"
+    }
+  ]
+}

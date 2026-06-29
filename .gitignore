@@ -1,7 +1,7 @@
-node_modules/
+﻿node_modules/
 dist/
 .env
+results/latest-report.json
+results/latest-report.md
 results/history/*
 !results/history/.gitkeep
-
-touch results/history/.gitkeep

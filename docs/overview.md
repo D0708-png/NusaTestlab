@@ -1,11 +1,3 @@
-
----
-
-# 11. Buat dokumentasi awal
-
-Buat file `docs/overview.md`:
-
-```md
 # NusaTestLab Overview
 
 NusaTestLab adalah standalone SaaS testing tool.

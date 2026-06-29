@@ -1,0 +1,32 @@
+﻿{
+  "id": "ai-umkm-core-smoke",
+  "name": "AI UMKM profile core smoke test",
+  "module": "core",
+  "severity": "low",
+  "tags": ["smoke", "core", "ai-umkm"],
+  "steps": [
+    {
+      "id": "profile-name-contains-umkm",
+      "name": "Profile name should contain UMKM",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": "ai-umkm",
+      "expected": "umkm"
+    },
+    {
+      "id": "default-role-count",
+      "name": "AI UMKM profile should support three default roles",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 3,
+      "expected": 3
+    },
+    {
+      "id": "security-module-enabled",
+      "name": "Security module should be enabled in MVP direction",
+      "type": "assertion",
+      "operator": "isTrue",
+      "actual": true
+    }
+  ]
+}
