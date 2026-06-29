@@ -1,0 +1,146 @@
+{
+  "generatedAt": "2026-06-29T05:35:32.875Z",
+  "version": "0.4.0-dev",
+  "title": "NusaTestLab Dashboard",
+  "summary": {
+    "modules": 7,
+    "availableModules": 7,
+    "missingModules": 0,
+    "totalTests": 1126,
+    "totalPassed": 1050,
+    "totalFailed": 0,
+    "totalWarnings": 1,
+    "totalIssues": 0,
+    "overallRiskScore": 1,
+    "overallRiskLevel": "low"
+  },
+  "modules": [
+    {
+      "id": "core",
+      "name": "Core Scenario Testing",
+      "status": "passed",
+      "sourcePath": "results\\latest-report.json",
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "warning": 0,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 0,
+      "riskLevel": "low",
+      "notes": [
+        "Core profile scenario result."
+      ]
+    },
+    {
+      "id": "inventory-validation",
+      "name": "Inventory Validation",
+      "status": "passed",
+      "sourcePath": "results\\latest-inventory-validation.json",
+      "total": 100,
+      "passed": 100,
+      "failed": 0,
+      "warning": 0,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 0,
+      "riskLevel": "low",
+      "notes": [
+        "Inventory Validation latest report loaded."
+      ]
+    },
+    {
+      "id": "report-validation",
+      "name": "Report Validation",
+      "status": "passed",
+      "sourcePath": "results\\latest-report-validation.json",
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "warning": 0,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 0,
+      "riskLevel": "low",
+      "notes": [
+        "Report Validation latest report loaded."
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security Testing",
+      "status": "passed",
+      "sourcePath": "results\\latest-security-report.json",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "warning": 0,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 0,
+      "riskLevel": "low",
+      "notes": [
+        "Security Testing latest report loaded."
+      ]
+    },
+    {
+      "id": "ai",
+      "name": "AI Testing",
+      "status": "passed",
+      "sourcePath": "results\\latest-ai-report.json",
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "warning": 0,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 0,
+      "riskLevel": "low",
+      "notes": [
+        "AI Testing latest report loaded."
+      ]
+    },
+    {
+      "id": "performance",
+      "name": "Performance Testing",
+      "status": "passed",
+      "sourcePath": "results\\latest-performance-report.json",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "warning": 0,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 0,
+      "riskLevel": "low",
+      "notes": [
+        "Performance Testing latest report loaded."
+      ]
+    },
+    {
+      "id": "transaction-simulation",
+      "name": "Transaction Simulation",
+      "status": "warning",
+      "sourcePath": "results\\latest-transaction-simulation.json",
+      "total": 1000,
+      "passed": 924,
+      "failed": 0,
+      "warning": 1,
+      "skipped": 0,
+      "issues": 0,
+      "riskScore": 3,
+      "riskLevel": "low",
+      "notes": [
+        "Throughput: 333333.33 tx/s",
+        "Rejected transactions: 76"
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "level": "low",
+      "module": "overall",
+      "message": "No major issues detected in latest reports."
+    }
+  ]
+}

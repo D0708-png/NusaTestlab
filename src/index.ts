@@ -10,6 +10,7 @@ import type { HttpMethod } from "./connectors/http-api/types.js";
 import { ReportWriter } from "./reports/report-writer.js";
 import { ProfileLoader } from "./profiles/profile-loader.js";
 import { registerSecurityTestCommand } from "./commands/security-test-command.js";
+import { registerProfileCreateCommand } from "./commands/profile-create-command.js";
 
 const program = new Command();
 
@@ -265,5 +266,7 @@ registerGenerateDataCommand(program);
 registerValidationCommands(program);
 
 registerSecurityTestCommand(program);
+
+registerProfileCreateCommand(program);
 
 await program.parseAsync();
