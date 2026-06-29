@@ -17,7 +17,8 @@
     "validate:inventory": "tsx src/index.ts validate:inventory",
     "validate:reports": "tsx src/index.ts validate:reports",
     "security:dry": "tsx src/index.ts security:run --mode dry-run",
-    "profile:create": "tsx src/index.ts profile:create"
+    "profile:create": "tsx src/index.ts profile:create",
+    "scenario:create": "tsx src/index.ts scenario:create"
   },
   "keywords": [
     "saas-testing",
