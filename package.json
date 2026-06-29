@@ -20,7 +20,8 @@
     "performance:dry": "tsx src/index.ts performance:run --mode dry-run",
     "performance:generic": "tsx src/index.ts performance:run -p generic-saas --mode dry-run",
     "ai:dry": "tsx src/index.ts ai:run --mode dry-run",
-    "ai:generic": "tsx src/index.ts ai:run -p generic-saas --mode dry-run"
+    "ai:generic": "tsx src/index.ts ai:run -p generic-saas --mode dry-run",
+    "performance:simulate": "tsx src/index.ts performance:simulate-transactions"
   },
   "keywords": [
     "saas-testing",

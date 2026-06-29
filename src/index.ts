@@ -11,6 +11,7 @@ import { ReportWriter } from "./reports/report-writer.js";
 import { ProfileLoader } from "./profiles/profile-loader.js";
 import { registerSecurityTestCommand } from "./commands/security-test-command.js";
 import { registerPerformanceCommand } from "./commands/performance-command.js";
+import { registerTransactionSimulationCommand } from "./commands/transaction-simulation-command.js";
 
 const program = new Command();
 
@@ -268,5 +269,7 @@ registerValidationCommands(program);
 registerSecurityTestCommand(program);
 
 registerPerformanceCommand(program);
+
+registerTransactionSimulationCommand(program);
 
 await program.parseAsync();
