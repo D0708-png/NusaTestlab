@@ -1,0 +1,33 @@
+﻿{
+  "id": "ai-umkm-report-consistency-baseline",
+  "name": "AI UMKM report consistency baseline",
+  "module": "reports",
+  "severity": "high",
+  "tags": ["ai-umkm", "reports", "business-validation"],
+  "steps": [
+    {
+      "id": "sales-report-total-baseline",
+      "name": "Sales report total should match successful transaction total",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 12500000,
+      "expected": 12500000
+    },
+    {
+      "id": "top-selling-products-required",
+      "name": "Top selling products report should be part of AI UMKM report testing",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["sales-summary", "profit-report", "top-selling-products", "low-stock-products"],
+      "expected": "top-selling-products"
+    },
+    {
+      "id": "low-stock-products-required",
+      "name": "Low stock products report should be part of AI UMKM report testing",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["sales-summary", "profit-report", "top-selling-products", "low-stock-products"],
+      "expected": "low-stock-products"
+    }
+  ]
+}

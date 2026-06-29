@@ -1,0 +1,125 @@
+﻿{
+  "entities": [
+    {
+      "name": "tenant",
+      "description": "Business tenant or SaaS customer account.",
+      "requiredFields": ["id", "name", "status"]
+    },
+    {
+      "name": "store",
+      "description": "Store or branch owned by a tenant.",
+      "requiredFields": ["id", "tenantId", "name", "status"]
+    },
+    {
+      "name": "user",
+      "description": "Application user with role-based access.",
+      "requiredFields": ["id", "tenantId", "name", "email", "role", "status"]
+    },
+    {
+      "name": "product",
+      "description": "Sellable product in minimarket inventory.",
+      "requiredFields": [
+        "id",
+        "tenantId",
+        "storeId",
+        "sku",
+        "name",
+        "categoryId",
+        "costPrice",
+        "sellingPrice",
+        "currentStock",
+        "minimumStock"
+      ]
+    },
+    {
+      "name": "supplier",
+      "description": "Product supplier.",
+      "requiredFields": ["id", "tenantId", "name", "status"]
+    },
+    {
+      "name": "stockMovement",
+      "description": "Inventory movement record.",
+      "requiredFields": [
+        "id",
+        "tenantId",
+        "storeId",
+        "productId",
+        "type",
+        "quantity",
+        "referenceType",
+        "createdAt"
+      ],
+      "allowedTypes": [
+        "initial",
+        "purchase",
+        "sale",
+        "return",
+        "damaged",
+        "adjustment"
+      ]
+    },
+    {
+      "name": "salesTransaction",
+      "description": "Sales transaction created by cashier or system.",
+      "requiredFields": [
+        "id",
+        "tenantId",
+        "storeId",
+        "cashierId",
+        "items",
+        "subtotal",
+        "discountTotal",
+        "grandTotal",
+        "status",
+        "createdAt"
+      ]
+    },
+    {
+      "name": "purchaseTransaction",
+      "description": "Purchase transaction from supplier.",
+      "requiredFields": [
+        "id",
+        "tenantId",
+        "storeId",
+        "supplierId",
+        "items",
+        "grandTotal",
+        "status",
+        "createdAt"
+      ]
+    },
+    {
+      "name": "businessReport",
+      "description": "Business report generated from transactional data.",
+      "requiredFields": [
+        "period",
+        "tenantId",
+        "storeId",
+        "totalSales",
+        "totalPurchases",
+        "grossProfit",
+        "lowStockProducts",
+        "topSellingProducts"
+      ]
+    }
+  ],
+  "businessRules": [
+    {
+      "id": "stock-final-formula",
+      "description": "Final stock must equal initial stock plus stock in minus stock out plus returns minus damaged plus adjustments.",
+      "formula": "finalStock = initialStock + purchases - sales + returns - damaged + adjustments"
+    },
+    {
+      "id": "selling-price-should-not-affect-history",
+      "description": "Changing product selling price must not change historical sales transaction totals."
+    },
+    {
+      "id": "cashier-profit-restriction",
+      "description": "Cashier role must not access profit, cost price, or margin reports."
+    },
+    {
+      "id": "tenant-data-isolation",
+      "description": "Users from one tenant must not access another tenant's business data."
+    }
+  ]
+}

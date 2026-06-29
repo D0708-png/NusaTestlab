@@ -1,0 +1,56 @@
+﻿{
+  "profile": "ai-umkm",
+  "version": "0.1.0",
+  "testGroups": [
+    {
+      "module": "inventory",
+      "priority": "critical",
+      "scenarios": [
+        "stock-final-formula",
+        "stock-cannot-be-negative",
+        "cancelled-transaction-restores-stock",
+        "damaged-stock-reduces-available-stock",
+        "stock-opname-adjustment-is-audited"
+      ]
+    },
+    {
+      "module": "reports",
+      "priority": "high",
+      "scenarios": [
+        "sales-report-total-matches-transactions",
+        "profit-report-uses-cost-price",
+        "top-selling-products-match-sales-items",
+        "low-stock-products-match-minimum-stock"
+      ]
+    },
+    {
+      "module": "security",
+      "priority": "critical",
+      "scenarios": [
+        "unauthenticated-request-is-rejected",
+        "invalid-token-is-rejected",
+        "cashier-cannot-access-profit-report",
+        "cashier-cannot-edit-cost-price",
+        "admin-cannot-access-owner-only-settings"
+      ]
+    },
+    {
+      "module": "tenant-isolation",
+      "priority": "critical",
+      "scenarios": [
+        "tenant-a-cannot-read-tenant-b-products",
+        "tenant-a-cannot-read-tenant-b-reports",
+        "tenant-a-cannot-update-tenant-b-stock"
+      ]
+    },
+    {
+      "module": "ai-readiness",
+      "priority": "medium",
+      "scenarios": [
+        "ai-answer-must-reference-available-data",
+        "ai-must-not-expose-hidden-system-data",
+        "ai-must-not-cross-tenant-boundary"
+      ]
+    }
+  ]
+}

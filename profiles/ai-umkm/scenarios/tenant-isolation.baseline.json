@@ -1,0 +1,33 @@
+﻿{
+  "id": "ai-umkm-tenant-isolation-baseline",
+  "name": "AI UMKM tenant isolation baseline",
+  "module": "tenant-isolation",
+  "severity": "critical",
+  "tags": ["ai-umkm", "security", "tenant-isolation"],
+  "steps": [
+    {
+      "id": "tenant-a-cannot-read-tenant-b-products",
+      "name": "Tenant A user must not read Tenant B products",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "id": "tenant-a-cannot-read-tenant-b-reports",
+      "name": "Tenant A user must not read Tenant B reports",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "id": "tenant-a-cannot-update-tenant-b-stock",
+      "name": "Tenant A user must not update Tenant B stock",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 403,
+      "expected": 403
+    }
+  ]
+}

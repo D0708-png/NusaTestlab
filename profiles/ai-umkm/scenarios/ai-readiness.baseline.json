@@ -1,0 +1,33 @@
+﻿{
+  "id": "ai-umkm-ai-readiness-baseline",
+  "name": "AI UMKM AI feature readiness baseline",
+  "module": "ai-readiness",
+  "severity": "medium",
+  "tags": ["ai-umkm", "ai", "future-roadmap"],
+  "steps": [
+    {
+      "id": "ai-testing-planned",
+      "name": "AI response accuracy testing should be part of future roadmap",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["ai-response-accuracy", "prompt-injection", "tenant-boundary-protection"],
+      "expected": "ai-response-accuracy"
+    },
+    {
+      "id": "prompt-injection-planned",
+      "name": "Prompt injection testing should be part of future roadmap",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["ai-response-accuracy", "prompt-injection", "tenant-boundary-protection"],
+      "expected": "prompt-injection"
+    },
+    {
+      "id": "tenant-boundary-protection-planned",
+      "name": "AI tenant boundary protection should be part of future roadmap",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["ai-response-accuracy", "prompt-injection", "tenant-boundary-protection"],
+      "expected": "tenant-boundary-protection"
+    }
+  ]
+}

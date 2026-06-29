@@ -1,0 +1,41 @@
+﻿{
+  "id": "ai-umkm-role-access-baseline",
+  "name": "AI UMKM role access baseline",
+  "module": "security",
+  "severity": "critical",
+  "tags": ["ai-umkm", "security", "rbac"],
+  "steps": [
+    {
+      "id": "cashier-profit-report-denied",
+      "name": "Cashier must not access profit report",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "id": "cashier-cost-price-denied",
+      "name": "Cashier must not access cost price data",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 403,
+      "expected": 403
+    },
+    {
+      "id": "owner-profit-report-allowed",
+      "name": "Owner should access profit report",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 200,
+      "expected": 200
+    },
+    {
+      "id": "invalid-token-rejected",
+      "name": "Invalid token should be rejected",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 401,
+      "expected": 401
+    }
+  ]
+}

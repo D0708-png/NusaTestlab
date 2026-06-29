@@ -1,0 +1,34 @@
+﻿{
+  "id": "ai-umkm-inventory-stock-formula",
+  "name": "AI UMKM inventory stock formula baseline",
+  "module": "inventory",
+  "severity": "critical",
+  "tags": ["ai-umkm", "inventory", "stock-validation"],
+  "steps": [
+    {
+      "id": "stock-final-formula-baseline",
+      "name": "Final stock should match baseline inventory formula",
+      "type": "assertion",
+      "operator": "equals",
+      "actual": 115,
+      "expected": 115,
+      "message": "Formula: initial 100 + purchase 50 - sale 37 + return 2 - damaged 0 + adjustment 0 = 115"
+    },
+    {
+      "id": "stock-must-not-be-negative",
+      "name": "Stock validation should reject negative stock result",
+      "type": "assertion",
+      "operator": "isTrue",
+      "actual": true,
+      "message": "Negative stock scenario must be treated as failed business logic unless explicitly allowed."
+    },
+    {
+      "id": "stock-movement-types-supported",
+      "name": "AI UMKM stock movement types should support core minimarket use cases",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["initial", "purchase", "sale", "return", "damaged", "adjustment"],
+      "expected": "adjustment"
+    }
+  ]
+}

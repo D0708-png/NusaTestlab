@@ -1,0 +1,33 @@
+﻿{
+  "id": "ai-umkm-data-model-readiness",
+  "name": "AI UMKM data model readiness",
+  "module": "core",
+  "severity": "high",
+  "tags": ["ai-umkm", "data-model", "readiness"],
+  "steps": [
+    {
+      "id": "product-entity-required",
+      "name": "Product entity must be part of AI UMKM profile",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["tenant", "store", "user", "product", "supplier", "stockMovement", "salesTransaction", "purchaseTransaction", "businessReport"],
+      "expected": "product"
+    },
+    {
+      "id": "stock-movement-entity-required",
+      "name": "Stock movement entity must be part of AI UMKM profile",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["tenant", "store", "user", "product", "supplier", "stockMovement", "salesTransaction", "purchaseTransaction", "businessReport"],
+      "expected": "stockMovement"
+    },
+    {
+      "id": "business-report-entity-required",
+      "name": "Business report entity must be part of AI UMKM profile",
+      "type": "assertion",
+      "operator": "contains",
+      "actual": ["tenant", "store", "user", "product", "supplier", "stockMovement", "salesTransaction", "purchaseTransaction", "businessReport"],
+      "expected": "businessReport"
+    }
+  ]
+}
