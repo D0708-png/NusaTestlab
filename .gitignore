@@ -7,3 +7,6 @@ results/latest-*.json
 results/latest-*.md
 results/history/*
 !results/history/.gitkeep
+
+results/dashboard/*
+!results/dashboard/.gitkeep
