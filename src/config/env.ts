@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+﻿import dotenv from "dotenv";
 import { z } from "zod";
 
 dotenv.config();
@@ -7,6 +7,7 @@ const envSchema = z.object({
   TARGET_APP_NAME: z.string().default("ai-umkm-copilot"),
   TARGET_PROFILE: z.string().default("ai-umkm"),
   TARGET_API_BASE_URL: z.string().url().default("http://localhost:3000"),
+  TARGET_API_TIMEOUT_MS: z.coerce.number().int().positive().default(10000),
   TARGET_TEST_MODE: z
     .string()
     .default("true")
