@@ -1,7 +1,9 @@
 ﻿node_modules/
 dist/
 .env
-results/latest-report.json
-results/latest-report.md
+data/generated/*
+!data/generated/.gitkeep
+results/latest-*.json
+results/latest-*.md
 results/history/*
 !results/history/.gitkeep

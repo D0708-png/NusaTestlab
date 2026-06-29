@@ -1,4 +1,6 @@
-﻿import { Command } from "commander";
+﻿import { registerGenerateDataCommand } from "./commands/generate-data-command.js";
+import { registerValidationCommands } from "./commands/validation-commands.js";
+import { Command } from "commander";
 import chalk from "chalk";
 import { loadEnv } from "./config/env.js";
 import { buildTargetConfig, createAuthHeaders } from "./config/target-config.js";
@@ -257,5 +259,8 @@ function formatPayloadPreview(data: unknown): string {
 
   return `${text.slice(0, 800)}...`;
 }
+
+registerGenerateDataCommand(program);
+registerValidationCommands(program);
 
 await program.parseAsync();
