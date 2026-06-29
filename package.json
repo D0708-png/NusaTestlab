@@ -18,7 +18,12 @@
     "validate:reports": "tsx src/index.ts validate:reports",
     "security:dry": "tsx src/index.ts security:run --mode dry-run",
     "profile:create": "tsx src/index.ts profile:create",
-    "scenario:create": "tsx src/index.ts scenario:create"
+    "scenario:create": "tsx src/index.ts scenario:create",
+    "performance:dry": "tsx src/index.ts performance:run --mode dry-run",
+    "performance:generic": "tsx src/index.ts performance:run -p generic-saas --mode dry-run",
+    "performance:simulate": "tsx src/index.ts performance:simulate-transactions",
+    "dashboard:build": "tsx src/index.ts dashboard:build",
+    "dashboard:compare": "tsx src/index.ts dashboard:compare"
   },
   "keywords": [
     "saas-testing",
