@@ -1,0 +1,26 @@
+﻿{
+  "scenarios": [
+    {
+      "id": "generic-no-token-auth-me",
+      "name": "No token must not access current user endpoint",
+      "module": "security",
+      "severity": "high",
+      "tags": ["auth", "no-token"],
+      "method": "GET",
+      "path": "/api/auth/me",
+      "role": "none",
+      "expectedStatus": 401
+    },
+    {
+      "id": "generic-invalid-token-auth-me",
+      "name": "Invalid token must not access current user endpoint",
+      "module": "security",
+      "severity": "high",
+      "tags": ["auth", "invalid-token"],
+      "method": "GET",
+      "path": "/api/auth/me",
+      "role": "invalid",
+      "expectedStatus": 401
+    }
+  ]
+}

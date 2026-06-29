@@ -1,0 +1,76 @@
+﻿{
+  "scenarios": [
+    {
+      "id": "ai-umkm-no-token-profit-report",
+      "name": "No token must not access profit report",
+      "module": "security",
+      "severity": "critical",
+      "tags": ["auth", "no-token", "reports"],
+      "method": "GET",
+      "path": "/api/reports/profit",
+      "role": "none",
+      "expectedStatus": 401,
+      "description": "Public unauthenticated request must be rejected."
+    },
+    {
+      "id": "ai-umkm-invalid-token-profit-report",
+      "name": "Invalid token must not access profit report",
+      "module": "security",
+      "severity": "critical",
+      "tags": ["auth", "invalid-token", "reports"],
+      "method": "GET",
+      "path": "/api/reports/profit",
+      "role": "invalid",
+      "expectedStatus": 401,
+      "description": "Invalid bearer token must be rejected."
+    },
+    {
+      "id": "ai-umkm-cashier-profit-report-forbidden",
+      "name": "Cashier must not access profit report",
+      "module": "security",
+      "severity": "critical",
+      "tags": ["rbac", "cashier", "reports"],
+      "method": "GET",
+      "path": "/api/reports/profit",
+      "role": "cashier",
+      "expectedStatus": 403,
+      "description": "Cashier role must not access owner-level profit report."
+    },
+    {
+      "id": "ai-umkm-cashier-cost-price-forbidden",
+      "name": "Cashier must not access cost price data",
+      "module": "security",
+      "severity": "critical",
+      "tags": ["rbac", "cashier", "cost-price"],
+      "method": "GET",
+      "path": "/api/products/cost-prices",
+      "role": "cashier",
+      "expectedStatus": 403,
+      "description": "Cashier must not read cost price or margin-sensitive data."
+    },
+    {
+      "id": "ai-umkm-admin-owner-settings-forbidden",
+      "name": "Admin must not access owner-only settings",
+      "module": "security",
+      "severity": "high",
+      "tags": ["rbac", "admin", "settings"],
+      "method": "GET",
+      "path": "/api/settings/owner",
+      "role": "admin",
+      "expectedStatus": 403,
+      "description": "Admin should not access owner-only configuration."
+    },
+    {
+      "id": "ai-umkm-cross-tenant-products-forbidden",
+      "name": "Tenant user must not access another tenant products",
+      "module": "tenant-isolation",
+      "severity": "critical",
+      "tags": ["tenant-isolation", "products"],
+      "method": "GET",
+      "path": "/api/tenants/tenant_b/products",
+      "role": "owner",
+      "expectedStatus": 403,
+      "description": "Authenticated tenant A owner must not access tenant B product data."
+    }
+  ]
+}

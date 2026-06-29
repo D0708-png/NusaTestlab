@@ -9,6 +9,7 @@ import { HttpApiConnector } from "./connectors/http-api/http-api-connector.js";
 import type { HttpMethod } from "./connectors/http-api/types.js";
 import { ReportWriter } from "./reports/report-writer.js";
 import { ProfileLoader } from "./profiles/profile-loader.js";
+import { registerSecurityTestCommand } from "./commands/security-test-command.js";
 
 const program = new Command();
 
@@ -262,5 +263,7 @@ function formatPayloadPreview(data: unknown): string {
 
 registerGenerateDataCommand(program);
 registerValidationCommands(program);
+
+registerSecurityTestCommand(program);
 
 await program.parseAsync();
