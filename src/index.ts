@@ -11,6 +11,7 @@ import { ReportWriter } from "./reports/report-writer.js";
 import { ProfileLoader } from "./profiles/profile-loader.js";
 import { registerSecurityTestCommand } from "./commands/security-test-command.js";
 import { registerAiTestCommand } from "./commands/ai-test-command.js";
+import { registerAiScenarioGenerationCommand } from "./commands/ai-scenario-generation-command.js";
 
 const program = new Command();
 
@@ -268,5 +269,7 @@ registerValidationCommands(program);
 registerSecurityTestCommand(program);
 
 registerAiTestCommand(program);
+
+registerAiScenarioGenerationCommand(program);
 
 await program.parseAsync();

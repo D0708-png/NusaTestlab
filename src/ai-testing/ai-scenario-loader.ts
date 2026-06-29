@@ -31,6 +31,10 @@ export class AiScenarioLoader {
 
   async load(profileName: string): Promise<AiScenario[]> {
     const filePath = path.join(this.profilesDir, profileName, "ai.scenarios.json");
+    return this.loadFromFile(filePath);
+  }
+
+  async loadFromFile(filePath: string): Promise<AiScenario[]> {
     const raw = await readJsonFile<unknown>(filePath);
     const parsed = aiScenarioFileSchema.safeParse(raw);
 

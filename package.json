@@ -18,7 +18,9 @@
     "validate:reports": "tsx src/index.ts validate:reports",
     "security:dry": "tsx src/index.ts security:run --mode dry-run",
     "ai:dry": "tsx src/index.ts ai:run --mode dry-run",
-    "ai:generic": "tsx src/index.ts ai:run -p generic-saas --mode dry-run"
+    "ai:generic": "tsx src/index.ts ai:run -p generic-saas --mode dry-run",
+    "ai:generate-scenarios": "tsx src/index.ts ai:generate-scenarios",
+    "ai:grounded": "tsx src/index.ts ai:run --file data/generated/ai-umkm-ai.scenarios.json --mode dry-run"
   },
   "keywords": [
     "saas-testing",

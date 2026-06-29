@@ -12,7 +12,8 @@ export function registerAiTestCommand(program: Command): void {
     .description("Run AI response testing scenarios for the selected SaaS profile.")
     .option("-p, --profile <profile>", "Profile name.")
     .option("--mode <mode>", "AI test mode: dry-run or live.", "dry-run")
-    .action(async (options: { profile?: string; mode: string }) => {
+    .option("--file <file>", "Custom AI scenario file.")
+    .action(async (options: { profile?: string; mode: string; file?: string }) => {
       const env = loadEnv();
       const targetConfig = buildTargetConfig(env);
       const profileName = options.profile ?? targetConfig.profileName;
@@ -24,13 +25,19 @@ export function registerAiTestCommand(program: Command): void {
       console.log(`Target Profile: ${profileName}`);
       console.log(`API Base URL  : ${targetConfig.apiBaseUrl}`);
       console.log(`Mode          : ${mode}`);
+
+      if (options.file) {
+        console.log(`Scenario File : ${options.file}`);
+      }
+
       console.log("");
 
       try {
         const runner = new AiTestRunner({
           profileName,
           targetConfig,
-          mode
+          mode,
+          scenarioFile: options.file
         });
 
         const result = await runner.run();

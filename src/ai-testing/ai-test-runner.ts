@@ -9,6 +9,7 @@ interface AiTestRunnerOptions {
   profileName: string;
   targetConfig: TargetSaaSConfig;
   mode: AiTestMode;
+  scenarioFile?: string;
 }
 
 export class AiTestRunner {
@@ -18,7 +19,11 @@ export class AiTestRunner {
 
   async run(): Promise<AiRunResult> {
     const startedAt = new Date();
-    const scenarios = await this.loader.load(this.options.profileName);
+
+    const scenarios = this.options.scenarioFile
+      ? await this.loader.loadFromFile(this.options.scenarioFile)
+      : await this.loader.load(this.options.profileName);
+
     const results: AiScenarioResult[] = [];
 
     for (const scenario of scenarios) {
