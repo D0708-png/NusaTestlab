@@ -1,6 +1,6 @@
 {
   "name": "nusa-testlab",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Standalone SaaS testing tool with an AI UMKM testing profile.",
   "type": "module",
   "main": "dist/index.js",

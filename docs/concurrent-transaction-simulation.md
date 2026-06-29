@@ -14,37 +14,50 @@ Simulasi ini membantu mengecek:
 
 ## Flow
 
-```txt
+```bash
 generate:data
     ↓
 performance:simulate-transactions
     ↓
 transaction simulation report
-Generate Dataset
+```
+
+## Generate Dataset
+
+```bash
 npm run generate:data
 Run Simulation
 npm run performance:simulate
+```
 
 Custom:
 
+```bash
 npm run cli -- performance:simulate-transactions --transactions 5000 --concurrency 20 --max-items 5
-Metrics
+```
+
+## Metrics
 
 Report mencakup:
 
-total transactions
-completed transactions
-rejected transactions
-total items sold
-total sales amount
-negative stock products
-stock mismatch products
-duration
-throughput per second
-Output
+- total transactions
+- completed transactions
+- rejected transactions
+- total items sold
+- total sales amount
+- negative stock products
+- stock mismatch products
+- duration
+- throughput per second
+
+## Output
+
+```bash
 results/latest-transaction-simulation.json
 results/latest-transaction-simulation.md
-Catatan
+```
+
+## Catatan
 
 Simulasi ini berjalan secara lokal dari dataset dummy.
 

@@ -17,26 +17,37 @@ Dry-run:
 
 ```bash
 npm run performance:dry
+```
 
 Profile generic:
 
+```bash
 npm run performance:generic
+```
 
 Live mode:
 
+```bash
 npm run cli -- performance:run --mode live
+```
 
 Profile tertentu:
 
+```bash
 npm run cli -- performance:run -p ai-umkm --mode live
-Scenario File
+```
+
+## Scenario File
 
 Setiap profile bisa memiliki:
 
+```bash
 profiles/<profile-name>/performance.scenarios.json
+```
 
 Contoh:
 
+```bash
 {
   "scenarios": [
     {
@@ -54,39 +65,44 @@ Contoh:
     }
   ]
 }
-Metrics
+```
+
+## Metrics
 
 NusaTestLab menghitung:
 
-total requests
-successful requests
-failed requests
-error rate
-min latency
-max latency
-average latency
-p95 latency
-Dry-Run vs Live
+- total requests
+- successful requests
+- failed requests
+- error rate
+- min latency
+- max latency
+- average latency
+- p95 latency
+- Dry-Run vs Live
 
 Dry-run hanya memvalidasi konfigurasi scenario.
 
 Live mode benar-benar mengirim request ke target SaaS API.
 
-Reports
+## Reports
 
 Output:
 
+```bash
 results/latest-performance-report.json
 results/latest-performance-report.md
-Catatan
+```
+
+## Catatan
 
 Performance engine ini adalah baseline awal.
 
 Tahap berikutnya bisa menambahkan:
 
-transaction simulation
-cashier concurrent checkout
-ramp-up duration
-request body support
-CSV export
-historical performance comparison
+- transaction simulation
+- cashier concurrent checkout
+- ramp-up duration
+- request body support
+- CSV export
+- historical performance comparison
