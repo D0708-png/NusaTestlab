@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+results/history/*
+!results/history/.gitkeep
+
+touch results/history/.gitkeep

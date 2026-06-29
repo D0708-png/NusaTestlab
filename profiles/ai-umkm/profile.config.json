@@ -1,0 +1,17 @@
+{
+  "profileName": "ai-umkm",
+  "displayName": "AI UMKM SaaS Testing Profile",
+  "description": "Testing profile for AI UMKM-style SaaS applications, focused on inventory, reports, roles, and tenant isolation.",
+  "version": "0.1.0",
+  "modules": [
+    "inventory",
+    "reports",
+    "security",
+    "tenant-isolation"
+  ],
+  "defaultRoles": [
+    "owner",
+    "admin",
+    "cashier"
+  ]
+}

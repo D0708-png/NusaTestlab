@@ -1,0 +1,17 @@
+{
+  "profileName": "generic-saas",
+  "displayName": "Generic SaaS Testing Profile",
+  "description": "Base profile for testing general SaaS applications.",
+  "version": "0.1.0",
+  "modules": [
+    "api",
+    "auth",
+    "roles",
+    "tenant-isolation"
+  ],
+  "defaultRoles": [
+    "owner",
+    "admin",
+    "member"
+  ]
+}
