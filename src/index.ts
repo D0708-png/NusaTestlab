@@ -11,6 +11,7 @@ import { ReportWriter } from "./reports/report-writer.js";
 import { ProfileLoader } from "./profiles/profile-loader.js";
 import { registerSecurityTestCommand } from "./commands/security-test-command.js";
 import { registerDashboardCommand } from "./commands/dashboard-command.js";
+import { registerDashboardComparisonCommand } from "./commands/dashboard-comparison-command.js";
 
 const program = new Command();
 
@@ -268,5 +269,7 @@ registerValidationCommands(program);
 registerSecurityTestCommand(program);
 
 registerDashboardCommand(program);
+
+registerDashboardComparisonCommand(program);
 
 await program.parseAsync();

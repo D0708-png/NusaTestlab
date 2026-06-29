@@ -20,7 +20,8 @@
     "dashboard:build": "tsx src/index.ts dashboard:build",
     "performance:dry": "tsx src/index.ts performance:run --mode dry-run",
     "performance:generic": "tsx src/index.ts performance:run -p generic-saas --mode dry-run",
-    "performance:simulate": "tsx src/index.ts performance:simulate-transactions"
+    "performance:simulate": "tsx src/index.ts performance:simulate-transactions",
+    "dashboard:compare": "tsx src/index.ts dashboard:compare"
   },
   "keywords": [
     "saas-testing",

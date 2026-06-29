@@ -1,5 +1,6 @@
 ﻿import fs from "node:fs/promises";
 import path from "node:path";
+import dayjs from "dayjs";
 import type { DashboardModuleSummary, DashboardReport } from "./types.js";
 
 export class StaticDashboardWriter {
@@ -8,18 +9,28 @@ export class StaticDashboardWriter {
   async write(report: DashboardReport): Promise<{
     htmlPath: string;
     jsonPath: string;
+    historyJsonPath: string;
   }> {
+    const historyDir = path.join(this.outputDir, "history");
+
     await fs.mkdir(this.outputDir, { recursive: true });
+    await fs.mkdir(historyDir, { recursive: true });
 
     const htmlPath = path.join(this.outputDir, "index.html");
     const jsonPath = path.join(this.outputDir, "dashboard.json");
+    const historyJsonPath = path.join(
+      historyDir,
+      `${dayjs(report.generatedAt).format("YYYY-MM-DD-HHmmss")}-dashboard.json`
+    );
 
     await fs.writeFile(jsonPath, JSON.stringify(report, null, 2), "utf-8");
+    await fs.writeFile(historyJsonPath, JSON.stringify(report, null, 2), "utf-8");
     await fs.writeFile(htmlPath, this.toHtml(report), "utf-8");
 
     return {
       htmlPath,
-      jsonPath
+      jsonPath,
+      historyJsonPath
     };
   }
 
