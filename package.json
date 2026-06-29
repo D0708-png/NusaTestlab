@@ -24,7 +24,8 @@
     "performance:simulate": "tsx src/index.ts performance:simulate-transactions",
     "dashboard:build": "tsx src/index.ts dashboard:build",
     "dashboard:compare": "tsx src/index.ts dashboard:compare",
-    "package:export": "tsx src/index.ts package:export"
+    "package:export": "tsx src/index.ts package:export",
+    "package:import": "tsx src/index.ts package:import"
   },
   "keywords": [
     "saas-testing",

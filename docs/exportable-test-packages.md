@@ -96,3 +96,37 @@ Versi berikutnya akan menambahkan package import:
 
 npm run cli -- package:import exports/packages/ai-umkm-test-package.json
 
+
+## Import Package
+
+Package yang sudah diexport bisa diimport kembali ke folder `profiles/`.
+
+```bash
+npm run cli -- package:import exports/packages/ai-umkm-test-package.json
+
+Jika profile tujuan sudah ada, gunakan nama baru:
+
+npm run cli -- package:import exports/packages/ai-umkm-test-package.json --profile-name imported-ai-umkm
+
+Atau via npm script:
+
+npm run package:import -- exports/packages/ai-umkm-test-package.json --profile-name imported-ai-umkm
+Overwrite Existing Profile
+npm run cli -- package:import exports/packages/ai-umkm-test-package.json --overwrite
+Checksum Validation
+
+Importer akan memvalidasi checksum package.
+
+Jika checksum tidak valid, import akan gagal.
+
+Untuk package yang benar-benar dipercaya, checksum bisa dilewati:
+
+npm run cli -- package:import exports/packages/ai-umkm-test-package.json --skip-checksum
+Safe Import
+
+Importer melindungi dari unsafe path seperti:
+
+../outside-profile.json
+/root/file.json
+
+Semua file harus tetap berada di dalam folder profile tujuan.
