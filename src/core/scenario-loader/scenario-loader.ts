@@ -2,6 +2,7 @@
 import type { Dirent } from "node:fs";
 import path from "node:path";
 import { z } from "zod";
+import { readJsonFile } from "../../utils/json-file.js";
 import type { TestScenario } from "../types.js";
 
 const assertionOperatorSchema = z.enum([
@@ -66,9 +67,7 @@ export class ScenarioLoader {
     const scenarios: TestScenario[] = [];
 
     for (const scenarioFile of scenarioFiles) {
-      const rawContent = await fs.readFile(scenarioFile, "utf-8");
-      const normalizedContent = rawContent.replace(/^\uFEFF/, "");
-      const rawJson = JSON.parse(normalizedContent);
+      const rawJson = await readJsonFile<unknown>(scenarioFile);
       const parsed = scenarioSchema.safeParse(rawJson);
 
       if (!parsed.success) {

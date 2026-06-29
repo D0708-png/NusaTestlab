@@ -1,0 +1,22 @@
+﻿{
+  "endpoints": [
+    {
+      "id": "health-check",
+      "name": "Health Check",
+      "method": "GET",
+      "path": "/health",
+      "module": "system",
+      "requiredRole": "none",
+      "description": "Checks whether the target SaaS API is running."
+    },
+    {
+      "id": "auth-me",
+      "name": "Current User",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "module": "auth",
+      "requiredRole": "member",
+      "description": "Returns the current authenticated user."
+    }
+  ]
+}
