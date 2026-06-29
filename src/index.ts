@@ -12,6 +12,7 @@ import { ProfileLoader } from "./profiles/profile-loader.js";
 import { registerSecurityTestCommand } from "./commands/security-test-command.js";
 import { registerProfileCreateCommand } from "./commands/profile-create-command.js";
 import { registerScenarioCreateCommand } from "./commands/scenario-create-command.js";
+import { registerPackageExportCommand } from "./commands/package-export-command.js";
 
 const program = new Command();
 
@@ -271,5 +272,7 @@ registerSecurityTestCommand(program);
 registerProfileCreateCommand(program);
 
 registerScenarioCreateCommand(program);
+
+registerPackageExportCommand(program);
 
 await program.parseAsync();

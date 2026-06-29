@@ -7,3 +7,6 @@ results/latest-*.json
 results/latest-*.md
 results/history/*
 !results/history/.gitkeep
+
+exports/packages/*
+!exports/packages/.gitkeep
