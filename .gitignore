@@ -10,3 +10,9 @@ results/history/*
 
 exports/packages/*
 !exports/packages/.gitkeep
+
+results/dashboard/*
+!results/dashboard/.gitkeep
+!results/dashboard/history/
+results/dashboard/history/*
+!results/dashboard/history/.gitkeep
