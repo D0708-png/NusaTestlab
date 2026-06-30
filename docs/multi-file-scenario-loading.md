@@ -6,62 +6,85 @@ NusaTestLab mendukung multi-file scenario loading untuk memudahkan pengembangan 
 
 Core scenarios dibaca dari:
 
-```txt
+```bash
 profiles/<profile>/scenarios/*.json
-Security Scenarios
+```
+
+## Security Scenarios
 
 Security runner membaca:
 
+```bash
 profiles/<profile>/security.scenarios.json
 profiles/<profile>/security.*.json
+```
 
 Contoh:
 
+```bash
 profiles/ai-umkm/security.scenarios.json
 profiles/ai-umkm/security.cashier-profit-denied.json
 profiles/ai-umkm/security.tenant-isolation.json
-Performance Scenarios
+```
+
+## Performance Scenarios
 
 Performance runner membaca:
 
+```bash
 profiles/<profile>/performance.scenarios.json
 profiles/<profile>/performance.*.json
+```
 
 Contoh:
 
+```bash
 profiles/ai-umkm/performance.scenarios.json
 profiles/ai-umkm/performance.products-list-load.json
 profiles/ai-umkm/performance.sales-report-load.json
-AI Scenarios
+```
+
+## AI Scenarios
 
 AI runner membaca:
 
+```bash
 profiles/<profile>/ai.scenarios.json
 profiles/<profile>/ai.*.json
+```
 
 Contoh:
 
+```bash
 profiles/ai-umkm/ai.scenarios.json
 profiles/ai-umkm/ai.prompt-injection-basic.json
 profiles/ai-umkm/ai.tenant-boundary.json
-Duplicate ID Protection
+```
+
+## Duplicate ID Protection
 
 NusaTestLab akan menolak scenario jika ada duplicate id.
 
 Contoh error:
 
+```bash
 Duplicate security scenario id found: cashier-profit-denied
-Rekomendasi Naming
+```
+
+## Rekomendasi Naming
 
 Gunakan nama file modular:
 
+```bash
 security.<scenario-name>.json
 performance.<scenario-name>.json
 ai.<scenario-name>.json
+```
 
 Contoh:
 
+```bash
 security.cashier-profit-denied.json
 performance.products-list-load.json
 ai.prompt-injection-basic.json
-
+```

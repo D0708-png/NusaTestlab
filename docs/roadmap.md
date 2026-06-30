@@ -19,40 +19,76 @@ Scope:
 
 ## v0.2.0 - AI Testing Expansion
 
-Planned:
+Status: Released
 
-- AI response accuracy testing
+Scope:
+
+- AI response testing engine
+- AI dry-run and live modes
 - prompt injection testing
-- AI tenant boundary checks
-- AI hallucination detection baseline
-- AI answer grounding validation
+- expected refusal validation
+- forbidden content validation
+- dataset-grounded AI scenario generation
+- AI groundedness testing
+- JSON and Markdown AI reports
 
 ## v0.3.0 - Performance Testing
 
-Planned:
+Status: Released
 
-- load testing
-- stress testing
-- concurrent cashier simulation
+Scope:
+
+- performance testing engine
+- dry-run and live performance modes
+- performance scenario files
+- endpoint latency metrics
+- p95 latency calculation
+- performance threshold validation
+- concurrent transaction simulation
 - transaction throughput report
-- endpoint latency report
+- local stock consistency validation under simulated load
+- JSON and Markdown performance reports
 
 ## v0.4.0 - Dashboard and Risk Scoring
 
-Planned:
+Status: Released
 
-- web dashboard
-- historical test comparison
-- risk scoring
-- failed scenario explorer
-- security risk summary
+Scope:
+
+- static HTML dashboard
+- dashboard JSON summary
+- risk scoring engine
+- module-level risk score
+- overall risk score
+- recommendations
+- missing report detection
+- dashboard history snapshots
+- historical dashboard comparison
+- trend detection
 
 ## v0.5.0 - Standalone SaaS Testing Platform
 
+Status: Released
+
+Scope:
+
+- SaaS profile scaffolding
+- scenario template generator
+- multi-file scenario loading
+- exportable test packages
+- test package importer
+- checksum validation
+- safe import path validation
+- reusable profile workflow
+
+## v0.6.0 - Test Suites and CI Export
+
 Planned:
 
-- no-code scenario builder
-- custom profile wizard
-- reusable profile registry
-- SaaS profile templates
-- exportable test packages
+- configurable test suites
+- suite runner
+- CI-friendly output
+- JUnit-style export
+- test result summary for pipelines
+- failure-only report mode
+- command presets

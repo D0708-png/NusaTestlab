@@ -4,25 +4,36 @@ NusaTestLab adalah standalone SaaS testing tool untuk membantu developer mengete
 
 Profile pertama yang disediakan adalah `ai-umkm`, yaitu profile testing untuk sistem SaaS seperti AI UMKM.
 
-## MVP Features
+## Current Version
 
-NusaTestLab v0.1.0 menyediakan:
+```txt
+Version: 0.5.0
+Status : Standalone SaaS Testing Platform
+Features
 
-- CLI testing workflow
-- target SaaS configuration
-- HTTP API connector
-- profile-based testing
-- generic SaaS profile
-- AI UMKM testing profile
-- dummy minimarket data generator
-- inventory validation
-- business report validation
-- basic security testing
-- JSON and Markdown reports
+NusaTestLab saat ini mendukung:
 
-## Installation
-
-```bash
+CLI testing workflow
+target SaaS configuration
+HTTP API connector
+profile-based testing
+generic SaaS profile
+AI UMKM testing profile
+SaaS profile scaffolding
+scenario template generator
+multi-file scenario loading
+exportable test packages
+test package importer
+dummy minimarket data generator
+inventory validation
+business report validation
+basic security testing
+performance testing
+concurrent transaction simulation
+dashboard and risk scoring
+historical dashboard comparison
+JSON and Markdown reports
+Installation
 npm install
 
 Copy environment file:
@@ -42,7 +53,7 @@ List profiles:
 
 npm run cli -- profiles list
 
-Show AI UMKM profile:
+Show profile:
 
 npm run cli -- profiles show ai-umkm
 
@@ -53,66 +64,121 @@ npm run cli -- run ai-umkm
 Run generic SaaS profile scenarios:
 
 npm run cli -- run generic-saas
-Generate Dummy Data
+Create New SaaS Profile
+npm run cli -- profile:create clinic-saas --display-name "Clinic SaaS Testing Profile"
+
+Custom roles and modules:
+
+npm run cli -- profile:create clinic-saas --roles owner,admin,doctor,staff --modules api,auth,patients,appointments,billing,security,performance
+Create Scenario Template
+
+Core scenario:
+
+npm run cli -- scenario:create clinic-saas core patient-registration-basic --module patients
+
+Security scenario:
+
+npm run cli -- scenario:create clinic-saas security no-token-auth-me --role none --path /api/auth/me
+
+Performance scenario:
+
+npm run cli -- scenario:create clinic-saas performance health-check-load --path /health
+Multi-file Scenario Loading
+
+NusaTestLab supports modular scenario files:
+
+profiles/<profile>/security.scenarios.json
+profiles/<profile>/security.*.json
+profiles/<profile>/performance.scenarios.json
+profiles/<profile>/performance.*.json
+profiles/<profile>/ai.scenarios.json
+profiles/<profile>/ai.*.json
+Export and Import Test Packages
+
+Export profile package:
+
+npm run cli -- package:export ai-umkm
+
+Import package as new profile:
+
+npm run cli -- package:import exports/packages/ai-umkm-test-package.json --profile-name imported-ai-umkm
+Dummy Data
+
+Generate default AI UMKM dataset:
+
 npm run generate:data
+Business Validators
 
-Custom size:
+Validate inventory:
 
-npm run cli -- generate:data --products 500 --suppliers 5 --purchases 1000 --sales 5000
-
-Default output:
-
-data/generated/ai-umkm-dataset.json
-Validate Inventory
 npm run validate:inventory
 
-This validates:
+Validate reports:
 
-finalStock = initial + purchase - sale + return - damaged + adjustment
-Validate Reports
 npm run validate:reports
-
-This validates:
-
-total products
-total stock units
-low stock products
-total sales
-total purchases
-gross profit
-top selling products
 Security Testing
 
-Dry-run mode:
+Dry-run:
 
 npm run security:dry
 
 Live mode:
 
 npm run cli -- security:run --mode live
+Performance Testing
 
-Live mode requires the target SaaS API and role tokens to be configured in .env.
+Dry-run:
 
-API Probe
-npm run cli -- probe --path /health
+npm run performance:dry
 
-With role:
+Generic profile:
 
-npm run cli -- probe --path /api/reports/profit --role cashier
+npm run performance:generic
+
+Live mode:
+
+npm run cli -- performance:run --mode live
+Concurrent Transaction Simulation
+
+Generate dataset first:
+
+npm run generate:data
+
+Run simulation:
+
+npm run performance:simulate
+Dashboard
+
+Build dashboard:
+
+npm run dashboard:build
+
+Compare dashboard snapshots:
+
+npm run dashboard:compare
+Recommended Full Local Flow
+npm run cli -- run ai-umkm
+npm run generate:data
+npm run validate:inventory
+npm run validate:reports
+npm run security:dry
+npm run performance:dry
+npm run performance:simulate
+npm run dashboard:build
+npm run dashboard:compare
+npm run package:export -- ai-umkm
+npm run build
 Reports
 
 Runtime reports are generated in:
 
 results/
 
-Examples:
+Runtime exports are generated in:
 
-results/latest-report.md
-results/latest-inventory-validation.md
-results/latest-report-validation.md
-results/latest-security-report.md
+exports/packages/
 
-Runtime reports are ignored by Git.
+Runtime reports and generated packages are ignored by Git.
 
 Documentation
 
@@ -120,13 +186,23 @@ See:
 
 docs/architecture.md
 docs/profile-system.md
+docs/profile-scaffolding.md
+docs/scenario-template-generator.md
+docs/multi-file-scenario-loading.md
+docs/exportable-test-packages.md
+docs/test-package-importer.md
 docs/http-api-connector.md
 docs/ai-umkm-profile.md
 docs/dummy-data-and-validators.md
 docs/security-testing.md
+docs/performance-testing.md
+docs/concurrent-transaction-simulation.md
+docs/dashboard-and-risk-scoring.md
+docs/historical-dashboard-comparison.md
 docs/release-v0.1.0.md
+docs/release-v0.2.0.md
+docs/release-v0.3.0.md
+docs/release-v0.4.0.md
+docs/release-v0.5.0.md
 docs/roadmap.md
-Version
-Version: 0.1.0
-Status : MVP Release
 

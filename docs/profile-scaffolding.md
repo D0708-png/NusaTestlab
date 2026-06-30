@@ -19,57 +19,85 @@ Contoh SaaS yang bisa dibuatkan profile:
 
 ```bash
 npm run cli -- profile:create clinic-saas --display-name "Clinic SaaS Testing Profile"
+```
 
 Atau menggunakan npm script:
 
+```bash
 npm run profile:create -- clinic-saas --display-name "Clinic SaaS Testing Profile"
-Custom Roles
+```
+
+## Custom Roles
+
+```bash
 npm run cli -- profile:create clinic-saas --roles owner,admin,doctor,staff
-Custom Modules
+```
+
+## Custom Modules
+
+```bash
 npm run cli -- profile:create clinic-saas --modules api,auth,patients,appointments,billing,security,performance
-Output
+```
+
+## Output
 
 Command ini akan membuat folder:
 
+```bash
 profiles/clinic-saas/
+```
 
 Dengan file:
 
-profiles/clinic-saas/profile.config.json
-profiles/clinic-saas/endpoints.json
-profiles/clinic-saas/scenarios/core.smoke.json
-profiles/clinic-saas/security.scenarios.json
-profiles/clinic-saas/performance.scenarios.json
-Setelah Profile Dibuat
+- profiles/clinic-saas/profile.config.json
+- profiles/clinic-saas/endpoints.json
+- profiles/clinic-saas/scenarios/core.smoke.json
+- profiles/clinic-saas/security.scenarios.json
+- profiles/clinic-saas/performance.scenarios.json
+
+## Setelah Profile Dibuat
 
 Cek profile:
 
+```bash
 npm run cli -- profiles show clinic-saas
+```
 
 Run smoke test:
 
+```bash
 npm run cli -- run clinic-saas
+```
 
 Run security dry-run:
 
+```bash
 npm run cli -- security:run -p clinic-saas --mode dry-run
+```
 
 Run performance dry-run:
 
+```bash
 npm run cli -- performance:run -p clinic-saas --mode dry-run
-Overwrite Existing Files
+```
+
+## Overwrite Existing Files
 
 Secara default, scaffolder tidak akan overwrite file yang sudah ada.
 
 Untuk overwrite:
 
+```bash
 npm run cli -- profile:create clinic-saas --overwrite
-Naming Rule
+```
+
+## Naming Rule
 
 Profile name harus menggunakan kebab-case:
 
+```bash
 valid   : clinic-saas
 valid   : school-management
 invalid : Clinic SaaS
 invalid : clinic_saas
-
+```
