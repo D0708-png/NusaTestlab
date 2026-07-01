@@ -16,3 +16,5 @@ results/dashboard/*
 !results/dashboard/history/
 results/dashboard/history/*
 !results/dashboard/history/.gitkeep
+
+results/latest-suite-report.*
