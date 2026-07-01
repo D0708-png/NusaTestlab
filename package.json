@@ -28,7 +28,9 @@
     "package:import": "tsx src/index.ts package:import",
     "suites:list": "tsx src/index.ts suites list",
     "suites:generic": "tsx src/index.ts suites run generic-saas.local",
-    "suites:ai-umkm": "tsx src/index.ts suites run ai-umkm.local"
+    "suites:ai-umkm": "tsx src/index.ts suites run ai-umkm.local",
+    "suites:generic:failures": "tsx src/index.ts suites run generic-saas.local --failures-only",
+    "suites:ai-umkm:failures": "tsx src/index.ts suites run ai-umkm.local --failures-only"
   },
   "keywords": [
     "saas-testing",

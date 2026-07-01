@@ -6,7 +6,7 @@ import type { TestSuiteRunResult } from "./types.js";
 export class TestSuiteReportWriter {
   constructor(private readonly outputDir: string) {}
 
-  async write(result: TestSuiteRunResult): Promise<{
+  async write(result: TestSuiteRunResult, options: { failuresOnly?: boolean } = {}): Promise<{
     latestJsonPath: string;
     latestMarkdownPath: string;
     latestXmlPath: string;
@@ -25,7 +25,7 @@ export class TestSuiteReportWriter {
       `${dayjs(result.startedAt).format("YYYY-MM-DD-HHmmss")}-suite-report.md`
     );
 
-    const markdown = this.toMarkdown(result);
+    const markdown = this.toMarkdown(result, options);
     const xml = this.toJUnitXml(result);
 
     await fs.writeFile(latestJsonPath, JSON.stringify(result, null, 2), "utf-8");
@@ -41,7 +41,7 @@ export class TestSuiteReportWriter {
     };
   }
 
-  private toMarkdown(result: TestSuiteRunResult): string {
+  private toMarkdown(result: TestSuiteRunResult, options: { failuresOnly?: boolean } = {}): string {
     const lines: string[] = [];
 
     lines.push("# NusaTestLab Test Suite Report");
@@ -64,12 +64,13 @@ export class TestSuiteReportWriter {
     lines.push(`- Skipped: ${result.summary.skipped}`);
     lines.push("");
 
-    lines.push("## Tasks");
+    lines.push(options.failuresOnly ? "## Failures Only" : "## Tasks");
     lines.push("");
     lines.push("| Task | Type | Status | Duration | Message |");
     lines.push("|---|---|---|---:|---|");
 
-    for (const task of result.tasks) {
+    const visibleTasks = options.failuresOnly ? result.tasks.filter((task) => task.status !== "passed") : result.tasks;
+    for (const task of visibleTasks) {
       lines.push(
         `| ${escapeMd(task.id)} | ${escapeMd(task.type)} | ${escapeMd(task.status)} | ${task.durationMs}ms | ${escapeMd(task.message)} |`
       );
@@ -144,3 +145,4 @@ function escapeXml(value: string): string {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 }
+

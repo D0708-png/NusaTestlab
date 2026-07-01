@@ -5,6 +5,10 @@ import { TestSuiteLoader } from "../test-suites/test-suite-loader.js";
 import { TestSuiteRunner } from "../test-suites/test-suite-runner.js";
 import { TestSuiteReportWriter } from "../test-suites/test-suite-report-writer.js";
 
+interface SuiteRunOptions {
+  failuresOnly: boolean;
+}
+
 export function registerSuitesCommand(program: Command): void {
   const suites = program
     .command("suites")
@@ -68,7 +72,8 @@ export function registerSuitesCommand(program: Command): void {
     .command("run")
     .description("Run a test suite.")
     .argument("<suite>", "Suite name or JSON file path.")
-    .action(async (suiteName: string) => {
+    .option("--failures-only", "Only print failed/skipped tasks in console output.", false)
+    .action(async (suiteName: string, options: SuiteRunOptions) => {
       const env = loadEnv();
       const loader = new TestSuiteLoader();
       const suite = await loader.load(suiteName);
@@ -77,7 +82,9 @@ export function registerSuitesCommand(program: Command): void {
       const result = await runner.run(suite);
 
       const writer = new TestSuiteReportWriter(env.REPORT_OUTPUT_DIR);
-      const files = await writer.write(result);
+      const files = await writer.write(result, {
+        failuresOnly: options.failuresOnly
+      });
 
       console.log(chalk.bold("\nNusaTestLab Test Suite Run"));
       console.log("--------------------------");
@@ -97,21 +104,35 @@ export function registerSuitesCommand(program: Command): void {
       console.log(`Failed   : ${result.summary.failed}`);
       console.log(`Skipped  : ${result.summary.skipped}`);
       console.log(`Duration : ${result.durationMs}ms`);
+
+      if (options.failuresOnly) {
+        console.log(chalk.gray("Output   : failures only"));
+      }
+
       console.log("");
 
-      console.log(chalk.bold("Tasks:"));
-      for (const task of result.tasks) {
-        const status =
-          task.status === "passed"
-            ? chalk.green(task.status)
-            : task.status === "failed"
-              ? chalk.red(task.status)
-              : chalk.gray(task.status);
+      const visibleTasks = options.failuresOnly
+        ? result.tasks.filter((task) => task.status !== "passed")
+        : result.tasks;
 
-        console.log(`- ${task.id} (${task.type}) ${status} ${task.durationMs}ms`);
+      console.log(chalk.bold(options.failuresOnly ? "Failures/Skipped:" : "Tasks:"));
 
-        if (task.error) {
-          console.log(chalk.gray(`  ${firstLine(task.error)}`));
+      if (visibleTasks.length === 0) {
+        console.log(chalk.green("- no failed or skipped tasks"));
+      } else {
+        for (const task of visibleTasks) {
+          const status =
+            task.status === "passed"
+              ? chalk.green(task.status)
+              : task.status === "failed"
+                ? chalk.red(task.status)
+                : chalk.gray(task.status);
+
+          console.log(`- ${task.id} (${task.type}) ${status} ${task.durationMs}ms`);
+
+          if (task.error) {
+            console.log(chalk.gray(`  ${firstLine(task.error)}`));
+          }
         }
       }
 
@@ -128,4 +149,3 @@ export function registerSuitesCommand(program: Command): void {
 function firstLine(value: string): string {
   return value.split(/\r?\n/).find(Boolean) ?? value;
 }
-
