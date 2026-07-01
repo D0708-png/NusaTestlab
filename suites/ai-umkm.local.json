@@ -1,0 +1,29 @@
+﻿{
+  "id": "ai-umkm-local",
+  "name": "AI UMKM Local Test Suite",
+  "description": "Default local test suite for AI UMKM profile.",
+  "profile": "ai-umkm",
+  "mode": "dry-run",
+  "tasks": [
+    {
+      "id": "core",
+      "type": "core",
+      "enabled": true
+    },
+    {
+      "id": "inventory-validation",
+      "type": "inventory-validation",
+      "enabled": true
+    },
+    {
+      "id": "report-validation",
+      "type": "report-validation",
+      "enabled": true
+    },
+    {
+      "id": "security",
+      "type": "security",
+      "enabled": true
+    }
+  ]
+}

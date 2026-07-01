@@ -1,0 +1,19 @@
+﻿{
+  "id": "generic-saas-local",
+  "name": "Generic SaaS Local Test Suite",
+  "description": "Default local test suite for generic SaaS profile.",
+  "profile": "generic-saas",
+  "mode": "dry-run",
+  "tasks": [
+    {
+      "id": "core",
+      "type": "core",
+      "enabled": true
+    },
+    {
+      "id": "security",
+      "type": "security",
+      "enabled": true
+    }
+  ]
+}

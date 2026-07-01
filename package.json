@@ -25,7 +25,10 @@
     "dashboard:build": "tsx src/index.ts dashboard:build",
     "dashboard:compare": "tsx src/index.ts dashboard:compare",
     "package:export": "tsx src/index.ts package:export",
-    "package:import": "tsx src/index.ts package:import"
+    "package:import": "tsx src/index.ts package:import",
+    "suites:list": "tsx src/index.ts suites list",
+    "suites:generic": "tsx src/index.ts suites run generic-saas.local",
+    "suites:ai-umkm": "tsx src/index.ts suites run ai-umkm.local"
   },
   "keywords": [
     "saas-testing",

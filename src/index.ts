@@ -14,6 +14,7 @@ import { registerProfileCreateCommand } from "./commands/profile-create-command.
 import { registerScenarioCreateCommand } from "./commands/scenario-create-command.js";
 import { registerPackageExportCommand } from "./commands/package-export-command.js";
 import { registerPackageImportCommand } from "./commands/package-import-command.js";
+import { registerSuitesCommand } from "./commands/suites-command.js";
 
 const program = new Command();
 
@@ -277,5 +278,7 @@ registerScenarioCreateCommand(program);
 registerPackageExportCommand(program);
 
 registerPackageImportCommand(program);
+
+registerSuitesCommand(program);
 
 await program.parseAsync();
