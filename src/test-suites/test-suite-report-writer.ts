@@ -9,6 +9,7 @@ export class TestSuiteReportWriter {
   async write(result: TestSuiteRunResult): Promise<{
     latestJsonPath: string;
     latestMarkdownPath: string;
+    latestXmlPath: string;
     historyMarkdownPath: string;
   }> {
     const historyDir = path.join(this.outputDir, "history");
@@ -18,20 +19,24 @@ export class TestSuiteReportWriter {
 
     const latestJsonPath = path.join(this.outputDir, "latest-suite-report.json");
     const latestMarkdownPath = path.join(this.outputDir, "latest-suite-report.md");
+    const latestXmlPath = path.join(this.outputDir, "latest-suite-report.xml");
     const historyMarkdownPath = path.join(
       historyDir,
       `${dayjs(result.startedAt).format("YYYY-MM-DD-HHmmss")}-suite-report.md`
     );
 
     const markdown = this.toMarkdown(result);
+    const xml = this.toJUnitXml(result);
 
     await fs.writeFile(latestJsonPath, JSON.stringify(result, null, 2), "utf-8");
     await fs.writeFile(latestMarkdownPath, markdown, "utf-8");
+    await fs.writeFile(latestXmlPath, xml, "utf-8");
     await fs.writeFile(historyMarkdownPath, markdown, "utf-8");
 
     return {
       latestJsonPath,
       latestMarkdownPath,
+      latestXmlPath,
       historyMarkdownPath
     };
   }
@@ -89,8 +94,53 @@ export class TestSuiteReportWriter {
 
     return `${lines.join("\n")}\n`;
   }
+
+  private toJUnitXml(result: TestSuiteRunResult): string {
+    const testCases = result.tasks.map((task) => {
+      const timeSeconds = (task.durationMs / 1000).toFixed(3);
+      const className = `${result.suiteId}.${task.type}`;
+      const name = task.id;
+
+      if (task.status === "failed") {
+        return [
+          `    <testcase classname="${escapeXml(className)}" name="${escapeXml(name)}" time="${timeSeconds}">`,
+          `      <failure message="${escapeXml(task.message)}">${escapeXml(task.error ?? task.message)}</failure>`,
+          "    </testcase>"
+        ].join("\n");
+      }
+
+      if (task.status === "skipped") {
+        return [
+          `    <testcase classname="${escapeXml(className)}" name="${escapeXml(name)}" time="${timeSeconds}">`,
+          `      <skipped message="${escapeXml(task.message)}" />`,
+          "    </testcase>"
+        ].join("\n");
+      }
+
+      return `    <testcase classname="${escapeXml(className)}" name="${escapeXml(name)}" time="${timeSeconds}" />`;
+    });
+
+    return [
+      '<?xml version="1.0" encoding="UTF-8"?>',
+      `<testsuites tests="${result.summary.total}" failures="${result.summary.failed}" skipped="${result.summary.skipped}" time="${(result.durationMs / 1000).toFixed(3)}">`,
+      `  <testsuite name="${escapeXml(result.suiteName)}" tests="${result.summary.total}" failures="${result.summary.failed}" skipped="${result.summary.skipped}" time="${(result.durationMs / 1000).toFixed(3)}" timestamp="${escapeXml(result.startedAt)}">`,
+      ...testCases,
+      "  </testsuite>",
+      "</testsuites>",
+      ""
+    ].join("\n");
+  }
 }
 
 function escapeMd(value: string): string {
   return value.replace(/\|/g, "\\|").replace(/\n/g, " ");
+}
+
+function escapeXml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }

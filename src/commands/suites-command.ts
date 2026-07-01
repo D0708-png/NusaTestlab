@@ -118,6 +118,7 @@ export function registerSuitesCommand(program: Command): void {
       console.log("");
       console.log(chalk.gray(`JSON Report    : ${files.latestJsonPath}`));
       console.log(chalk.gray(`Markdown Report: ${files.latestMarkdownPath}`));
+      console.log(chalk.gray(`XML Report     : ${files.latestXmlPath}`));
       console.log("");
 
       process.exitCode = result.status === "failed" ? 1 : 0;
@@ -127,3 +128,4 @@ export function registerSuitesCommand(program: Command): void {
 function firstLine(value: string): string {
   return value.split(/\r?\n/).find(Boolean) ?? value;
 }
+
