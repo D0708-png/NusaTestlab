@@ -1,7 +1,9 @@
 ﻿import { Command } from "commander";
 import chalk from "chalk";
+import { loadEnv } from "../config/env.js";
 import { TestSuiteLoader } from "../test-suites/test-suite-loader.js";
 import { TestSuiteRunner } from "../test-suites/test-suite-runner.js";
+import { TestSuiteReportWriter } from "../test-suites/test-suite-report-writer.js";
 
 export function registerSuitesCommand(program: Command): void {
   const suites = program
@@ -67,11 +69,15 @@ export function registerSuitesCommand(program: Command): void {
     .description("Run a test suite.")
     .argument("<suite>", "Suite name or JSON file path.")
     .action(async (suiteName: string) => {
+      const env = loadEnv();
       const loader = new TestSuiteLoader();
       const suite = await loader.load(suiteName);
 
       const runner = new TestSuiteRunner();
       const result = await runner.run(suite);
+
+      const writer = new TestSuiteReportWriter(env.REPORT_OUTPUT_DIR);
+      const files = await writer.write(result);
 
       console.log(chalk.bold("\nNusaTestLab Test Suite Run"));
       console.log("--------------------------");
@@ -109,6 +115,9 @@ export function registerSuitesCommand(program: Command): void {
         }
       }
 
+      console.log("");
+      console.log(chalk.gray(`JSON Report    : ${files.latestJsonPath}`));
+      console.log(chalk.gray(`Markdown Report: ${files.latestMarkdownPath}`));
       console.log("");
 
       process.exitCode = result.status === "failed" ? 1 : 0;
