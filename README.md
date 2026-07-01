@@ -7,8 +7,8 @@ Profile pertama yang disediakan adalah `ai-umkm`, yaitu profile testing untuk si
 ## Current Version
 
 ```bash
-Version: 0.5.0
-Status : Standalone SaaS Testing Platform
+Version: 0.6.0
+Status : Test Suites and CI Export
 ```
 
 ## Features
@@ -26,14 +26,16 @@ NusaTestLab saat ini mendukung:
 - multi-file scenario loading
 - exportable test packages
 - test package importer
+- configurable test suites
+- suite runner
+- JSON suite report
+- Markdown suite report
+- JUnit-style XML suite report
+- failure-only suite output
 - dummy minimarket data generator
 - inventory validation
 - business report validation
 - basic security testing
-- performance testing
-- concurrent transaction simulation
-- dashboard and risk scoring
-- historical dashboard comparison
 - JSON and Markdown reports
 
 ## Installation
@@ -86,16 +88,45 @@ Run generic SaaS profile scenarios:
 npm run cli -- run generic-saas
 ```
 
+## Test Suites
+
+List suites:
+
+```bash
+npm run suites:list
+```
+
+Run Generic SaaS local suite:
+
+```bash
+npm run suites:generic
+```
+
+Run AI UMKM local suite:
+
+```bash
+npm run suites:ai-umkm
+```
+
+Failure-only output:
+
+```bash
+npm run suites:generic:failures
+npm run suites:ai-umkm:failures
+```
+
+Suite reports are generated in:
+
+```bash
+results/latest-suite-report.json
+results/latest-suite-report.md
+results/latest-suite-report.xml
+```
+
 ## Create New SaaS Profile
 
 ```bash
 npm run cli -- profile:create clinic-saas --display-name "Clinic SaaS Testing Profile"
-```
-
-Custom roles and modules:
-
-```bash
-npm run cli -- profile:create clinic-saas --roles owner,admin,doctor,staff --modules api,auth,patients,appointments,billing,security,performance
 ```
 
 ## Create Scenario Template
@@ -110,25 +141,6 @@ Security scenario:
 
 ```bash
 npm run cli -- scenario:create clinic-saas security no-token-auth-me --role none --path /api/auth/me
-```
-
-Performance scenario:
-
-```bash
-npm run cli -- scenario:create clinic-saas performance health-check-load --path /health
-```
-
-## Multi-file Scenario Loading
-
-NusaTestLab supports modular scenario files:
-
-```bash
-profiles/<profile>/security.scenarios.json
-profiles/<profile>/security.*.json
-profiles/<profile>/performance.scenarios.json
-profiles/<profile>/performance.*.json
-profiles/<profile>/ai.scenarios.json
-profiles/<profile>/ai.*.json
 ```
 
 ## Export and Import Test Packages
@@ -181,69 +193,18 @@ Live mode:
 npm run cli -- security:run --mode live
 ```
 
-## Performance Testing
-
-Dry-run:
-
-```bash
-npm run performance:dry
-```
-
-Generic profile:
-
-```bash
-npm run performance:generic
-```
-
-Live mode:
-
-```bash
-npm run cli -- performance:run --mode live
-```
-
-## Concurrent Transaction Simulation
-
-Generate dataset first:
-
-```bash
-npm run generate:data
-```
-
-Run simulation:
-
-```bash
-npm run performance:simulate
-```
-
-## Dashboard
-
-Build dashboard:
-
-```bash
-npm run dashboard:build
-```
-
-Compare dashboard snapshots:
-
-```bash
-npm run dashboard:compare
-```
-
 ## Recommended Full Local Flow
 
-- npm run cli -- run ai-umkm
-- npm run generate:data
-- npm run validate:inventory
-- npm run validate:reports
-- npm run security:dry
-- npm run performance:dry
-- npm run performance:simulate
-- npm run dashboard:build
-- npm run dashboard:compare
-- npm run package:export -- ai-umkm
-- npm run build
+```bash
+npm run cli -- info
+npm run cli -- profiles list
+npm run suites:generic
+npm run suites:ai-umkm
+npm run suites:ai-umkm:failures
+npm run build
+```
 
-## Reports
+## Runtime Outputs
 
 Runtime reports are generated in:
 
@@ -263,24 +224,15 @@ Runtime reports and generated packages are ignored by Git.
 
 See:
 
-- docs/architecture.md
-- docs/profile-system.md
-- docs/profile-scaffolding.md
-- docs/scenario-template-generator.md
-- docs/multi-file-scenario-loading.md
-- docs/exportable-test-packages.md
-- docs/test-package-importer.md
-- docs/http-api-connector.md
-- docs/ai-umkm-profile.md
-- docs/dummy-data-and-validators.md
-- docs/security-testing.md
-- docs/performance-testing.md
-- docs/concurrent-transaction-simulation.md
-- docs/dashboard-and-risk-scoring.md
-- docs/historical-dashboard-comparison.md
-- docs/release-v0.1.0.md
-- docs/release-v0.2.0.md
-- docs/release-v0.3.0.md
-- docs/release-v0.4.0.md
-- docs/release-v0.5.0.md
-- docs/roadmap.md
+```bash
+docs/architecture.md
+docs/profile-system.md
+docs/profile-scaffolding.md
+docs/scenario-template-generator.md
+docs/multi-file-scenario-loading.md
+docs/exportable-test-packages.md
+docs/test-package-importer.md
+docs/release-v0.5.0.md
+docs/release-v0.6.0.md
+docs/roadmap.md
+```

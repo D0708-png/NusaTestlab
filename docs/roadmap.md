@@ -17,55 +17,6 @@ Scope:
 - basic security testing
 - JSON and Markdown reports
 
-## v0.2.0 - AI Testing Expansion
-
-Status: Released
-
-Scope:
-
-- AI response testing engine
-- AI dry-run and live modes
-- prompt injection testing
-- expected refusal validation
-- forbidden content validation
-- dataset-grounded AI scenario generation
-- AI groundedness testing
-- JSON and Markdown AI reports
-
-## v0.3.0 - Performance Testing
-
-Status: Released
-
-Scope:
-
-- performance testing engine
-- dry-run and live performance modes
-- performance scenario files
-- endpoint latency metrics
-- p95 latency calculation
-- performance threshold validation
-- concurrent transaction simulation
-- transaction throughput report
-- local stock consistency validation under simulated load
-- JSON and Markdown performance reports
-
-## v0.4.0 - Dashboard and Risk Scoring
-
-Status: Released
-
-Scope:
-
-- static HTML dashboard
-- dashboard JSON summary
-- risk scoring engine
-- module-level risk score
-- overall risk score
-- recommendations
-- missing report detection
-- dashboard history snapshots
-- historical dashboard comparison
-- trend detection
-
 ## v0.5.0 - Standalone SaaS Testing Platform
 
 Status: Released
@@ -83,12 +34,27 @@ Scope:
 
 ## v0.6.0 - Test Suites and CI Export
 
-Planned:
+Status: Released
+
+Scope:
 
 - configurable test suites
 - suite runner
-- CI-friendly output
-- JUnit-style export
-- test result summary for pipelines
-- failure-only report mode
-- command presets
+- suite list/show/run commands
+- JSON suite report
+- Markdown suite report
+- JUnit-style XML report
+- failure-only console output
+- failure-only Markdown report
+- CI-friendly npm scripts
+
+## v0.7.0 - Mainline Feature Alignment
+
+Planned:
+
+- restore and align performance command into main
+- restore and align dashboard command into main
+- optional suite tasks
+- suite task presets
+- GitHub Actions workflow template
+- richer CI summaries
