@@ -11,6 +11,29 @@ Version: 0.6.0
 Status : Test Suites and CI Export
 ```
 
+## Product Direction
+
+NusaTestLab is currently a CLI-first SaaS/API testing framework.
+
+The long-term goal is to evolve it into a production-ready SaaS testing platform that can test deployed SaaS prototypes, including UI flows, buttons, forms, APIs, auth, role access, risk scoring, screenshots, and recommendations.
+
+Current status:
+
+```txt
+Current app : CLI testing framework
+GUI         : Not available yet
+Browser UI testing : Planned
+Production SaaS platform : Planned
+```
+
+Read more:
+
+```txt
+docs/product-direction.md
+docs/production-roadmap.md
+docs/current-limitations.md
+```
+
 ## Features
 
 NusaTestLab saat ini mendukung:
@@ -236,3 +259,4 @@ docs/release-v0.5.0.md
 docs/release-v0.6.0.md
 docs/roadmap.md
 ```
+
