@@ -1,4 +1,4 @@
-﻿# NusaTestLab v0.7.0 - Browser Testing Engine
+# NusaTestLab v0.7.0 - Browser Testing Engine
 
 NusaTestLab v0.7.0 adds the first browser-based website testing capability.
 

@@ -1,4 +1,4 @@
-﻿# Browser Testing Quickstart
+# Browser Testing Quickstart
 
 This guide explains how to use the first NusaTestLab browser testing engine.
 
