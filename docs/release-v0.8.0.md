@@ -1,4 +1,4 @@
-﻿# NusaTestLab v0.8.0 - Browser Scenario Testing
+# NusaTestLab v0.8.0 - Browser Scenario Testing
 
 NusaTestLab v0.8.0 adds browser scenario testing on top of the browser testing engine introduced in v0.7.0.
 
@@ -37,6 +37,20 @@ Run the example scenario using npm:
 npm run browser:scenario:example
 ```
 
+## Example Scenario File
+
+Scenario files live in:
+
+```txt
+browser-scenarios/
+```
+
+Example:
+
+```txt
+browser-scenarios/example.com.json
+```
+
 ## Reports
 
 Browser scenario reports are generated in:
@@ -61,6 +75,18 @@ Version: 0.8.0
 Status : Browser Scenario Testing
 Mode   : CLI-first
 ```
+
+## Why This Matters
+
+This release makes NusaTestLab closer to the production-ready platform vision:
+
+- users can define what page to test
+- users can define which text or elements must exist
+- users can define click steps
+- users can capture screenshots
+- users can get structured reports
+
+The next logical step is to build a GUI scenario builder on top of this scenario format.
 
 ## Next Direction
 
