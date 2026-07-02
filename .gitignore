@@ -18,3 +18,7 @@ results/dashboard/history/*
 !results/dashboard/history/.gitkeep
 
 results/latest-suite-report.*
+
+results/latest-browser-report.*
+results/browser-screenshots/*
+!results/browser-screenshots/.gitkeep

@@ -30,7 +30,8 @@
     "suites:generic": "tsx src/index.ts suites run generic-saas.local",
     "suites:ai-umkm": "tsx src/index.ts suites run ai-umkm.local",
     "suites:generic:failures": "tsx src/index.ts suites run generic-saas.local --failures-only",
-    "suites:ai-umkm:failures": "tsx src/index.ts suites run ai-umkm.local --failures-only"
+    "suites:ai-umkm:failures": "tsx src/index.ts suites run ai-umkm.local --failures-only",
+    "browser:run": "tsx src/index.ts browser:run"
   },
   "keywords": [
     "saas-testing",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "playwright": "^1.61.1",
     "tsx": "^4.0.0",
     "typescript": "^5.0.0",
     "vitest": "^1.0.0"
