@@ -84,3 +84,4 @@ Planned:
 - expected text checks
 - screenshot on failed step
 - browser test suite integration
+

@@ -7,8 +7,8 @@ Profile pertama yang disediakan adalah `ai-umkm`, yaitu profile testing untuk si
 ## Current Version
 
 ```bash
-Version: 0.7.0
-Status : Browser Testing Engine
+Version: 0.8.0
+Status : Browser Scenario Testing
 ```
 
 ## Product Direction
@@ -147,6 +147,8 @@ docs/browser-testing-engine.md
 docs/browser-testing-usage.md
 docs/browser-testing-quickstart.md
 docs/release-v0.7.0.md
+docs/release-v0.8.0.md
+docs/browser-scenario-quickstart.md
 ```
 
 ## Test Suites
@@ -265,6 +267,27 @@ npm run suites:ai-umkm:failures
 npm run build
 ```
 
+
+## Browser Scenario Testing
+
+Run the example browser scenario:
+
+```bash
+npm run browser:scenario:example
+```
+
+Or directly:
+
+```bash
+npx tsx src/index.ts browser:scenario --file browser-scenarios/example.com.json
+```
+
+Browser scenario reports are generated in:
+
+```txt
+results/latest-browser-scenario-report.json
+results/latest-browser-scenario-report.md
+```
 ## Runtime Outputs
 
 Runtime reports are generated in:
@@ -297,5 +320,6 @@ docs/release-v0.5.0.md
 docs/release-v0.6.0.md
 docs/roadmap.md
 ```
+
 
 

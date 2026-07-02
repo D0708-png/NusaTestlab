@@ -2,6 +2,22 @@
 
 All notable changes to NusaTestLab will be documented in this file.
 
+## [0.8.0] - Browser Scenario Testing
+
+### Added
+
+- Browser scenario testing.
+- `browser:scenario` CLI command.
+- Example browser scenario for `https://example.com`.
+- Step-based browser testing.
+- JSON browser scenario report.
+- Markdown browser scenario report.
+- Browser scenario screenshot artifacts.
+- `browser:scenario:example` npm script.
+
+### Notes
+
+This release adds the first foundation for a future GUI scenario builder.
 ## [0.7.0] - Browser Testing Engine
 
 ### Added
@@ -115,4 +131,5 @@ Performance and dashboard suite tasks are reserved in the suite type system, but
 - Inventory validator.
 - Business report validator.
 - Basic security testing engine.
+
 
