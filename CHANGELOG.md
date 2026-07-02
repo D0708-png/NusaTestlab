@@ -1,5 +1,19 @@
-# Changelog
+﻿# Changelog
 
+## [1.0.0-alpha] - GUI Dashboard Alpha
+
+### Added
+
+- Local GUI dashboard builder.
+- `gui:build` command.
+- `gui:open` command.
+- Static HTML dashboard output.
+- Summary cards for suite, browser, and browser scenario reports.
+- Dashboard documentation and quickstart.
+
+### Notes
+
+This is an alpha local GUI layer. It is not yet a hosted SaaS dashboard or scenario editor.
 All notable changes to NusaTestLab will be documented in this file.
 
 ## [0.9.0] - Browser Scenario Manager
@@ -148,5 +162,6 @@ Performance and dashboard suite tasks are reserved in the suite type system, but
 - Inventory validator.
 - Business report validator.
 - Basic security testing engine.
+
 
 

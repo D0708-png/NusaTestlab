@@ -1,4 +1,4 @@
-# Roadmap
+﻿# Roadmap
 
 ## v0.1.0 - MVP Release
 
@@ -110,3 +110,25 @@ Planned:
 - screenshot viewer
 - scenario runner from UI
 - risk summary panel
+## v1.0.0-alpha - GUI Dashboard Alpha
+
+Status: Released
+
+Scope:
+
+- local static GUI dashboard
+- dashboard builder command
+- dashboard open command
+- read latest suite/browser/scenario reports
+- show status and risk summary
+- document GUI dashboard alpha usage
+
+## Next - GUI Report Viewer
+
+Planned:
+
+- issue detail viewer
+- screenshot gallery
+- scenario editing UI
+- project/workspace model
+- run tests from dashboard

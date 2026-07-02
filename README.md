@@ -1,4 +1,4 @@
-# NusaTestLab
+﻿# NusaTestLab
 
 NusaTestLab adalah standalone SaaS testing tool untuk membantu developer mengetes aplikasi SaaS berbasis API.
 
@@ -7,8 +7,8 @@ Profile pertama yang disediakan adalah `ai-umkm`, yaitu profile testing untuk si
 ## Current Version
 
 ```bash
-Version: 0.9.0
-Status : Browser Scenario Manager
+Version: 1.0.0-alpha
+Status : GUI Dashboard Alpha
 ```
 
 ## Product Direction
@@ -337,6 +337,31 @@ exports/packages/
 
 Runtime reports and generated packages are ignored by Git.
 
+
+## GUI Dashboard Alpha
+
+NusaTestLab now includes a local static GUI dashboard alpha.
+
+Build the dashboard:
+
+```bash
+npm run gui:build
+```
+
+Open the dashboard:
+
+```bash
+npm run gui:open
+```
+
+The dashboard is generated at:
+
+```txt
+results/gui-dashboard/index.html
+```
+
+This is still a local read-only dashboard, not a hosted SaaS dashboard.
+
 ## Documentation
 
 See:
@@ -353,6 +378,7 @@ docs/release-v0.5.0.md
 docs/release-v0.6.0.md
 docs/roadmap.md
 ```
+
 
 
 
