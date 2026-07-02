@@ -26,3 +26,6 @@ results/browser-screenshots/*
 results/latest-browser-scenario-report.*
 results/browser-scenario-screenshots/*
 !results/browser-scenario-screenshots/.gitkeep
+
+results/gui-dashboard/*
+!results/gui-dashboard/.gitkeep
