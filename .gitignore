@@ -22,3 +22,7 @@ results/latest-suite-report.*
 results/latest-browser-report.*
 results/browser-screenshots/*
 !results/browser-screenshots/.gitkeep
+
+results/latest-browser-scenario-report.*
+results/browser-scenario-screenshots/*
+!results/browser-scenario-screenshots/.gitkeep

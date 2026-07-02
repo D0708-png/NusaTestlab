@@ -16,6 +16,7 @@ import { registerPackageExportCommand } from "./commands/package-export-command.
 import { registerPackageImportCommand } from "./commands/package-import-command.js";
 import { registerSuitesCommand } from "./commands/suites-command.js";
 import { registerBrowserTestCommand } from "./commands/browser-test-command.js";
+import { registerBrowserScenarioCommand } from "./commands/browser-scenario-command.js";
 
 const program = new Command();
 
@@ -283,5 +284,7 @@ registerPackageImportCommand(program);
 registerSuitesCommand(program);
 
 registerBrowserTestCommand(program);
+
+registerBrowserScenarioCommand(program);
 
 await program.parseAsync();

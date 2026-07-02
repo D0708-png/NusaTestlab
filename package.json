@@ -32,7 +32,9 @@
     "suites:generic:failures": "tsx src/index.ts suites run generic-saas.local --failures-only",
     "suites:ai-umkm:failures": "tsx src/index.ts suites run ai-umkm.local --failures-only",
     "browser:run": "tsx src/index.ts browser:run",
-    "browser:example": "tsx src/index.ts browser:run --url https://example.com --max-links 5"
+    "browser:example": "tsx src/index.ts browser:run --url https://example.com --max-links 5",
+    "browser:scenario": "tsx src/index.ts browser:scenario",
+    "browser:scenario:example": "tsx src/index.ts browser:scenario --file browser-scenarios/example.com.json"
   },
   "keywords": [
     "saas-testing",
