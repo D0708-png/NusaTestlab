@@ -1,4 +1,4 @@
-﻿# NusaTestLab
+# NusaTestLab
 
 NusaTestLab adalah standalone SaaS testing tool untuk membantu developer mengetes aplikasi SaaS berbasis API.
 
@@ -7,8 +7,8 @@ Profile pertama yang disediakan adalah `ai-umkm`, yaitu profile testing untuk si
 ## Current Version
 
 ```bash
-Version: 0.8.0
-Status : Browser Scenario Testing
+Version: 0.9.0
+Status : Browser Scenario Manager
 ```
 
 ## Product Direction
@@ -254,6 +254,39 @@ Live mode:
 
 ```bash
 npm run cli -- security:run --mode live
+```
+
+
+## Browser Scenario Manager
+
+List browser scenarios:
+
+```bash
+npx tsx src/index.ts browser:scenario:list
+```
+
+Show scenario details:
+
+```bash
+npx tsx src/index.ts browser:scenario:show example.com
+```
+
+Create a browser scenario:
+
+```bash
+npx tsx src/index.ts browser:scenario:create my-saas-homepage --base-url https://my-saas.vercel.app --name "My SaaS Homepage" --force
+```
+
+Add a text expectation step:
+
+```bash
+npx tsx src/index.ts browser:scenario:add-step my-saas-homepage --type expect-text --id expect-heading --text "Welcome"
+```
+
+Run a browser scenario:
+
+```bash
+npx tsx src/index.ts browser:scenario --file browser-scenarios/my-saas-homepage.json
 ```
 
 ## Recommended Full Local Flow

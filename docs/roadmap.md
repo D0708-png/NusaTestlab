@@ -1,4 +1,4 @@
-﻿# Roadmap
+# Roadmap
 
 ## v0.1.0 - MVP Release
 
@@ -85,3 +85,28 @@ Planned:
 - screenshot on failed step
 - browser test suite integration
 
+
+## v0.9.0 - Browser Scenario Manager
+
+Status: Released
+
+Scope:
+
+- browser scenario list command
+- browser scenario show command
+- browser scenario create command
+- browser scenario add-step command
+- browser scenario enable/disable step commands
+- browser scenario delete-step command
+- CLI-based scenario management
+
+## v1.0.0 - GUI Dashboard Foundation
+
+Planned:
+
+- local GUI dashboard
+- project list
+- browser test report viewer
+- screenshot viewer
+- scenario runner from UI
+- risk summary panel

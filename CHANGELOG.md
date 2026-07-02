@@ -1,7 +1,24 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to NusaTestLab will be documented in this file.
 
+## [0.9.0] - Browser Scenario Manager
+
+### Added
+
+- Browser scenario manager commands.
+- List browser scenarios.
+- Show browser scenario details.
+- Create browser scenarios from CLI.
+- Add scenario steps from CLI.
+- Enable scenario steps.
+- Disable scenario steps.
+- Delete scenario steps.
+- Browser scenario manager documentation.
+
+### Notes
+
+This release makes browser testing more configurable by allowing users to manage which parts of a website should be tested.
 ## [0.8.0] - Browser Scenario Testing
 
 ### Added
