@@ -2,6 +2,25 @@
 
 All notable changes to NusaTestLab will be documented in this file.
 
+## [0.7.0] - Browser Testing Engine
+
+### Added
+
+- Browser testing engine powered by Playwright.
+- `browser:run` CLI command.
+- Target URL browser testing.
+- Screenshot capture.
+- Console error detection.
+- Page runtime error detection.
+- Failed network request detection.
+- Basic broken link checks.
+- Browser risk score.
+- Browser report output in JSON and Markdown.
+- Browser testing documentation and quickstart guide.
+
+### Notes
+
+This is the first production-roadmap milestone toward UI and deployed website testing. It is not yet a full GUI testing platform.
 ## [0.6.0] - Test Suites and CI Export
 
 ### Added
@@ -96,3 +115,4 @@ Performance and dashboard suite tasks are reserved in the suite type system, but
 - Inventory validator.
 - Business report validator.
 - Basic security testing engine.
+

@@ -58,3 +58,29 @@ Planned:
 - suite task presets
 - GitHub Actions workflow template
 - richer CI summaries
+
+## v0.7.0 - Browser Testing Engine
+
+Status: Released
+
+Scope:
+
+- Playwright-powered browser testing
+- deployed URL test command
+- screenshot capture
+- console error detection
+- page error detection
+- failed request detection
+- basic broken link checks
+- JSON and Markdown browser reports
+
+## v0.8.0 - Browser Scenario Testing
+
+Planned:
+
+- browser scenario files
+- button click tests
+- form fill tests
+- expected text checks
+- screenshot on failed step
+- browser test suite integration

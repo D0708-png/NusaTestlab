@@ -7,8 +7,8 @@ Profile pertama yang disediakan adalah `ai-umkm`, yaitu profile testing untuk si
 ## Current Version
 
 ```bash
-Version: 0.6.0
-Status : Test Suites and CI Export
+Version: 0.7.0
+Status : Browser Testing Engine
 ```
 
 ## Product Direction
@@ -109,6 +109,44 @@ Run generic SaaS profile scenarios:
 
 ```bash
 npm run cli -- run generic-saas
+```
+
+
+## Browser Testing
+
+NusaTestLab v0.7.0 introduces the first browser testing engine.
+
+Run a deployed website test:
+
+```bash
+npm run browser:run -- --url https://example.com --max-links 5
+```
+
+The browser test can currently check:
+
+- page load status
+- final URL
+- console errors
+- page runtime errors
+- failed network requests
+- basic broken links
+- screenshot capture
+
+Browser test outputs:
+
+```txt
+results/latest-browser-report.json
+results/latest-browser-report.md
+results/browser-screenshots/
+```
+
+Read more:
+
+```txt
+docs/browser-testing-engine.md
+docs/browser-testing-usage.md
+docs/browser-testing-quickstart.md
+docs/release-v0.7.0.md
 ```
 
 ## Test Suites
@@ -259,4 +297,5 @@ docs/release-v0.5.0.md
 docs/release-v0.6.0.md
 docs/roadmap.md
 ```
+
 
