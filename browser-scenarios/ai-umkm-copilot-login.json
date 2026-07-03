@@ -1,0 +1,38 @@
+{
+  "id": "ai-umkm-copilot-login",
+  "name": "AI UMKM Login Page Test",
+  "description": "Smoke test for AI UMKM Copilot login page.",
+  "baseUrl": "https://ai-umkm-copilot.vercel.app/login",
+  "steps": [
+    {
+      "id": "open-login-page",
+      "type": "goto",
+      "url": "https://ai-umkm-copilot.vercel.app/login",
+      "enabled": true
+    },
+    {
+      "id": "expect-login-text",
+      "type": "expect-text",
+      "text": "Masuk",
+      "enabled": true
+    },
+    {
+      "id": "take-login-screenshot",
+      "type": "screenshot",
+      "name": "ai-umkm-login-page",
+      "enabled": true
+    },
+    {
+      "id": "expect-email-text",
+      "type": "expect-text",
+      "enabled": true,
+      "text": "Email"
+    },
+    {
+      "id": "expect-password-text",
+      "type": "expect-text",
+      "enabled": true,
+      "text": "Password"
+    }
+  ]
+}
