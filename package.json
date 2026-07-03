@@ -37,7 +37,8 @@
     "browser:scenario:list": "tsx src/index.ts browser:scenario:list",
     "browser:scenario:example": "tsx src/index.ts browser:scenario --file browser-scenarios/example.com.json",
     "gui:build": "tsx src/index.ts gui:build",
-    "gui:open": "tsx src/index.ts gui:open"
+    "gui:open": "tsx src/index.ts gui:open",
+    "browser:auth:ai-umkm": "tsx src/index.ts browser:scenario --file browser-scenarios/ai-umkm-copilot-auth-login.json"
   },
   "keywords": [
     "saas-testing",

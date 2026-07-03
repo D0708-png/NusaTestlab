@@ -1,15 +1,14 @@
 ﻿import fs from "node:fs/promises";
 import path from "node:path";
 import dayjs from "dayjs";
-import { chromium, type Browser, type Page, type Response } from "playwright";
+import { chromium, type Page } from "playwright";
 import type {
   BrowserScenarioConfig,
   BrowserScenarioIssue,
   BrowserScenarioLinkCheckResult,
   BrowserScenarioRunResult,
   BrowserScenarioStep,
-  BrowserScenarioStepResult,
-  BrowserScenarioViewport
+  BrowserScenarioStepResult
 } from "./types.js";
 
 export interface BrowserScenarioRunnerOptions {
@@ -21,131 +20,109 @@ interface RuntimeState {
   consoleErrors: string[];
   pageErrors: string[];
   failedRequests: string[];
-  linkChecks: BrowserScenarioLinkCheckResult[];
+  links: BrowserScenarioLinkCheckResult[];
   issues: BrowserScenarioIssue[];
+  linkChecks: BrowserScenarioLinkCheckResult[];
+  screenshotPaths: string[];
 }
 
 export class BrowserScenarioRunner {
   constructor(private readonly options: BrowserScenarioRunnerOptions = {}) {}
 
   async run(scenario: BrowserScenarioConfig): Promise<BrowserScenarioRunResult> {
-    const startedAtDate = new Date();
-    const startedAt = Date.now();
-    const viewport: BrowserScenarioViewport = scenario.viewport ?? { width: 1365, height: 768 };
-    const screenshotDir = this.options.screenshotDir ?? path.join(process.cwd(), "results", "browser-scenario-screenshots");
-
+    const startedAt = new Date();
+    const screenshotDir = this.options.screenshotDir ?? path.join("results", "browser-scenario-screenshots");
     await fs.mkdir(screenshotDir, { recursive: true });
 
     const state: RuntimeState = {
       consoleErrors: [],
       pageErrors: [],
       failedRequests: [],
+      links: [],
+      issues: [],
       linkChecks: [],
-      issues: []
+      screenshotPaths: []
     };
 
     const browser = await chromium.launch({ headless: this.options.headless ?? true });
-    const page = await this.createPage(browser, viewport, state);
-    const stepResults: BrowserScenarioStepResult[] = [];
+    const context = await browser.newContext({
+      viewport: scenario.viewport ?? { width: 1365, height: 768 }
+    });
+    const page = await context.newPage();
+    this.attachObservers(page, state);
+
+    const steps: BrowserScenarioStepResult[] = [];
+    let shouldSkip = false;
 
     try {
       for (const step of scenario.steps) {
-        const result = await this.runStep(page, scenario, step, screenshotDir, state);
-        stepResults.push(result);
+        if (step.enabled === false) {
+          steps.push({ id: step.id, type: step.type, status: "skipped", durationMs: 0, message: "Step disabled." });
+          continue;
+        }
 
-        if (result.status === "failed") {
-          state.issues.push({
-            severity: "high",
-            type: "step-failure",
-            message: result.error ?? result.message,
-            source: step.id
-          });
+        if (shouldSkip) {
+          steps.push({ id: step.id, type: step.type, status: "skipped", durationMs: 0, message: "Skipped because previous step failed." });
+          continue;
+        }
 
+        const started = Date.now();
+        try {
+          const message = await this.runStep(page, scenario, step, screenshotDir, state);
+          steps.push({ id: step.id, type: step.type, status: "passed", durationMs: Date.now() - started, message });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          steps.push({ id: step.id, type: step.type, status: "failed", durationMs: Date.now() - started, message: "Step failed." });
+          state.issues.push({ severity: "high", type: "step-failure", message, source: step.id });
           if (!scenario.continueOnFailure) {
-            const remaining = scenario.steps.slice(scenario.steps.indexOf(step) + 1);
-            for (const skipped of remaining) {
-              stepResults.push({
-                id: skipped.id,
-                type: skipped.type,
-                status: "skipped",
-                durationMs: 0,
-                message: "Skipped because previous step failed."
-              });
-            }
-            break;
+            shouldSkip = true;
           }
         }
       }
     } finally {
+      await context.close();
       await browser.close();
     }
 
-    for (const message of state.consoleErrors) {
-      state.issues.push({ severity: "medium", type: "console-error", message });
-    }
-
-    for (const message of state.pageErrors) {
-      state.issues.push({ severity: "high", type: "page-error", message });
-    }
-
-    for (const message of state.failedRequests) {
-      state.issues.push({ severity: "medium", type: "failed-request", message });
-    }
-
-    for (const link of state.linkChecks.filter((item) => item.status === "failed")) {
-      state.issues.push({
-        severity: "medium",
-        type: "broken-link",
-        message: link.error ?? `Broken link: ${link.url}`,
-        source: link.url
-      });
-    }
-
-    const completedAtDate = new Date();
-    const failedSteps = stepResults.filter((item) => item.status === "failed").length;
-    const skippedSteps = stepResults.filter((item) => item.status === "skipped").length;
-    const brokenLinks = state.linkChecks.filter((item) => item.status === "failed").length;
-    const riskScore = calculateRiskScore({
-      failedSteps,
-      skippedSteps,
-      consoleErrors: state.consoleErrors.length,
-      pageErrors: state.pageErrors.length,
-      failedRequests: state.failedRequests.length,
-      brokenLinks
-    });
+    const completedAt = new Date();
+    const failedSteps = steps.filter((step) => step.status === "failed").length;
+    const skippedSteps = steps.filter((step) => step.status === "skipped").length;
+    const brokenLinks = state.links.filter((link) => link.status === "failed").length;
+    const riskScore = this.calculateRiskScore(failedSteps, skippedSteps, state, brokenLinks);
+    const status = failedSteps > 0 ? "failed" : state.issues.length > 0 || brokenLinks > 0 ? "warning" : "passed";
 
     return {
       scenarioId: scenario.id,
       scenarioName: scenario.name,
       baseUrl: scenario.baseUrl,
-      finalUrl: undefined,
-      status: failedSteps > 0 ? "failed" : riskScore > 0 ? "warning" : "passed",
+      status,
       riskScore,
-      startedAt: startedAtDate.toISOString(),
-      completedAt: completedAtDate.toISOString(),
-      durationMs: Date.now() - startedAt,
-      viewport,
+      startedAt: startedAt.toISOString(),
+      completedAt: completedAt.toISOString(),
+      durationMs: completedAt.getTime() - startedAt.getTime(),
       summary: {
-        totalSteps: stepResults.length,
-        passedSteps: stepResults.filter((item) => item.status === "passed").length,
+        totalSteps: steps.length,
+        passedSteps: steps.filter((step) => step.status === "passed").length,
         failedSteps,
         skippedSteps,
         consoleErrors: state.consoleErrors.length,
         pageErrors: state.pageErrors.length,
         failedRequests: state.failedRequests.length,
-        checkedLinks: state.linkChecks.length,
+        checkedLinks: state.links.length,
         brokenLinks
       },
-      steps: stepResults,
+      steps,
       issues: state.issues,
-      linkChecks: state.linkChecks
+      linkChecks: state.linkChecks,
+      links: state.links,
+      consoleErrors: state.consoleErrors,
+      pageErrors: state.pageErrors,
+      failedRequests: state.failedRequests,
+      screenshotPaths: state.screenshotPaths
     };
   }
 
-  private async createPage(browser: Browser, viewport: BrowserScenarioViewport, state: RuntimeState): Promise<Page> {
-    const context = await browser.newContext({ viewport });
-    const page = await context.newPage();
-
+  private attachObservers(page: Page, state: RuntimeState): void {
     page.on("console", (message) => {
       if (message.type() === "error") {
         state.consoleErrors.push(message.text());
@@ -156,11 +133,11 @@ export class BrowserScenarioRunner {
       state.pageErrors.push(error.message);
     });
 
-    page.on("requestfailed", (request) => {
-      state.failedRequests.push(`${request.method()} ${request.url()} ${request.failure()?.errorText ?? "failed"}`);
+    page.on("response", (response) => {
+      if (response.status() >= 400) {
+        state.failedRequests.push(`${response.status()} ${response.url()}`);
+      }
     });
-
-    return page;
   }
 
   private async runStep(
@@ -169,185 +146,168 @@ export class BrowserScenarioRunner {
     step: BrowserScenarioStep,
     screenshotDir: string,
     state: RuntimeState
-  ): Promise<BrowserScenarioStepResult> {
-    const startedAt = Date.now();
+  ): Promise<string> {
+    const timeout = step.timeoutMs ?? 10000;
 
-    try {
-      if (step.type === "goto") {
-        const url = resolveUrl(scenario.baseUrl, step.url ?? step.path ?? "/");
-        const response = await page.goto(url, { waitUntil: "domcontentloaded", timeout: step.timeoutMs ?? 30000 });
-        validateResponse(step, response);
-        return passed(step, startedAt, `Opened ${url}`);
+    switch (step.type) {
+      case "goto": {
+        const targetUrl = step.url ?? this.resolveUrl(scenario.baseUrl, step.path);
+        await page.goto(targetUrl, { waitUntil: "domcontentloaded", timeout });
+        return `Opened ${targetUrl}`;
       }
 
-      if (step.type === "click") {
-        await page.locator(step.selector!).click({ timeout: step.timeoutMs ?? 10000 });
-        return passed(step, startedAt, `Clicked ${step.selector}`);
+      case "wait-for-selector": {
+        if (!step.selector) throw new Error("wait-for-selector step requires selector.");
+        await page.locator(step.selector).first().waitFor({ timeout });
+        return `Selector found: ${step.selector}`;
       }
 
-      if (step.type === "fill") {
-        await page.locator(step.selector!).fill(step.value ?? "", { timeout: step.timeoutMs ?? 10000 });
-        return passed(step, startedAt, `Filled ${step.selector}`);
+      case "fill": {
+        if (!step.selector) throw new Error("fill step requires selector.");
+        const value = this.resolveStepValue(step);
+        await page.locator(step.selector).first().fill(value, { timeout });
+        if (step.waitAfterMs) await page.waitForTimeout(step.waitAfterMs);
+        return step.valueFromEnv ? `Filled ${step.selector} from env ${step.valueFromEnv}` : `Filled ${step.selector}`;
       }
 
-      if (step.type === "expect-text") {
-        const content = await page.textContent("body");
-        if (!content?.includes(step.text ?? "")) {
+      case "click": {
+        if (step.selector) {
+          await page.locator(step.selector).first().click({ timeout });
+        } else if (step.text) {
+          await page.getByText(step.text, { exact: false }).first().click({ timeout });
+        } else {
+          throw new Error("click step requires selector or text.");
+        }
+        if (step.waitAfterMs) await page.waitForTimeout(step.waitAfterMs);
+        return step.selector ? `Clicked selector: ${step.selector}` : `Clicked text: ${step.text}`;
+      }
+
+      case "expect-text": {
+        if (!step.text) throw new Error("expect-text step requires text.");
+        await page.waitForLoadState("domcontentloaded", { timeout }).catch(() => undefined);
+        const bodyText = await page.locator("body").innerText({ timeout });
+        if (!bodyText.includes(step.text)) {
           throw new Error(`Expected text not found: ${step.text}`);
         }
-        return passed(step, startedAt, `Found expected text: ${step.text}`);
+        return `Expected text found: ${step.text}`;
       }
 
-      if (step.type === "wait-for-selector") {
-        await page.locator(step.selector!).waitFor({ timeout: step.timeoutMs ?? 10000 });
-        return passed(step, startedAt, `Selector appeared: ${step.selector}`);
-      }
-
-      if (step.type === "check-links") {
-        const links = await collectLinks(page, scenario.baseUrl, step.maxLinks ?? scenario.maxLinks ?? 10);
-        const results = await checkLinks(page, links);
-        state.linkChecks.push(...results);
-        const broken = results.filter((item) => item.status === "failed").length;
-        if (broken > 0) {
-          throw new Error(`${broken} broken link(s) found.`);
+      case "expect-url": {
+        const expected = step.url ?? step.path ?? step.text;
+        if (!expected) throw new Error("expect-url step requires url, path, or text.");
+        await page.waitForTimeout(step.waitAfterMs ?? 500);
+        const currentUrl = page.url();
+        if (!currentUrl.includes(expected)) {
+          throw new Error(`Expected URL to include ${expected}, got ${currentUrl}`);
         }
-        return passed(step, startedAt, `Checked ${results.length} link(s).`);
+        return `Expected URL matched: ${expected}`;
       }
 
-      if (step.type === "screenshot") {
-        const screenshotPath = path.join(
-          screenshotDir,
-          `${dayjs().format("YYYY-MM-DD-HHmmss")}-${safeName(step.name ?? step.id)}.png`
-        );
-        await page.screenshot({ path: screenshotPath, fullPage: true });
-        return {
-          ...passed(step, startedAt, `Screenshot captured: ${screenshotPath}`),
-          screenshotPath
-        };
+      case "check-links": {
+        const maxLinks = step.maxLinks ?? scenario.maxLinks ?? 10;
+        const links = await this.collectLinks(page, scenario.baseUrl, maxLinks);
+        state.links.push(...links);
+        const brokenLinks = links.filter((link) => link.status === "failed");
+        if (brokenLinks.length > 0) {
+          state.issues.push({ severity: "medium", type: "broken-links", message: `${brokenLinks.length} broken links found.`, source: step.id });
+        }
+        return `Checked ${links.length} links, ${brokenLinks.length} broken.`;
       }
 
-      throw new Error(`Unsupported browser scenario step type: ${step.type}`);
-    } catch (error) {
-      const screenshotPath = path.join(
-        screenshotDir,
-        `${dayjs().format("YYYY-MM-DD-HHmmss")}-${safeName(step.id)}-failed.png`
-      );
-
-      try {
-        await page.screenshot({ path: screenshotPath, fullPage: true });
-      } catch {
-        // Ignore screenshot failure.
+      case "screenshot": {
+        const safeName = this.safeFileName(step.name ?? step.id);
+        const filePath = path.join(screenshotDir, `${dayjs().format("YYYY-MM-DD-HHmmss")}-${safeName}.png`);
+        await page.screenshot({ path: filePath, fullPage: true });
+        state.screenshotPaths.push(filePath);
+        return `Screenshot saved: ${filePath}`;
       }
 
-      return {
-        id: step.id,
-        type: step.type,
-        status: "failed",
-        durationMs: Date.now() - startedAt,
-        message: "Step failed.",
-        error: error instanceof Error ? error.message : String(error),
-        screenshotPath
-      };
+      default: {
+        const neverStep: never = step.type;
+        throw new Error(`Unsupported step type: ${neverStep}`);
+      }
     }
   }
-}
 
-function passed(step: BrowserScenarioStep, startedAt: number, message: string): BrowserScenarioStepResult {
-  return {
-    id: step.id,
-    type: step.type,
-    status: "passed",
-    durationMs: Date.now() - startedAt,
-    message
-  };
-}
+  private resolveStepValue(step: BrowserScenarioStep): string {
+    if (step.valueFromEnv) {
+      const envValue = this.readEnvValue(step.valueFromEnv);
+      if (!envValue) {
+        throw new Error(`Environment variable not found or empty: ${step.valueFromEnv}`);
+      }
+      return envValue;
+    }
 
-function validateResponse(step: BrowserScenarioStep, response: Response | null): void {
-  if (!response) {
-    throw new Error("Navigation did not return a response.");
+    if (typeof step.value === "string") {
+      return step.value;
+    }
+
+    throw new Error("fill step requires value or valueFromEnv.");
   }
 
-  if (step.expectedStatus && response.status() !== step.expectedStatus) {
-    throw new Error(`Expected status ${step.expectedStatus}, received ${response.status()}.`);
-  }
+  private readEnvValue(name: string): string | undefined {
+    if (process.env[name]) return process.env[name];
 
-  if (!response.ok() && !step.expectedStatus) {
-    throw new Error(`Navigation returned HTTP ${response.status()}.`);
-  }
-}
-
-async function collectLinks(page: Page, baseUrl: string, maxLinks: number): Promise<string[]> {
-  const links = await page.locator("a[href]").evaluateAll((anchors) =>
-    anchors
-      .map((anchor) => (anchor as HTMLAnchorElement).href)
-      .filter(Boolean)
-  );
-
-  return Array.from(new Set(links))
-    .filter((url) => url.startsWith("http"))
-    .filter((url) => isSameOriginOrPublic(baseUrl, url))
-    .slice(0, maxLinks);
-}
-
-async function checkLinks(page: Page, links: string[]): Promise<BrowserScenarioLinkCheckResult[]> {
-  const results: BrowserScenarioLinkCheckResult[] = [];
-
-  for (const url of links) {
     try {
-      const response = await page.request.get(url, { timeout: 15000 });
-      results.push({
-        url,
-        status: response.ok() ? "passed" : "failed",
-        statusCode: response.status(),
-        error: response.ok() ? undefined : `HTTP ${response.status()}`
-      });
-    } catch (error) {
-      results.push({
-        url,
-        status: "failed",
-        error: error instanceof Error ? error.message : String(error)
-      });
+      const raw = require("node:fs").readFileSync(".env", "utf8") as string;
+      const lines = raw.split(/\r?\n/);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const index = trimmed.indexOf("=");
+        if (index === -1) continue;
+        const key = trimmed.slice(0, index).trim();
+        const value = trimmed.slice(index + 1).trim().replace(/^['\"]|['\"]$/g, "");
+        if (key === name) return value;
+      }
+    } catch {
+      return undefined;
     }
+
+    return undefined;
   }
 
-  return results;
-}
-
-function resolveUrl(baseUrl: string, value: string): string {
-  if (/^https?:\/\//.test(value)) {
-    return value;
+  private resolveUrl(baseUrl: string, pathValue?: string): string {
+    if (!pathValue) return baseUrl;
+    return new URL(pathValue, baseUrl).toString();
   }
 
-  return new URL(value, baseUrl).toString();
-}
+  private async collectLinks(page: Page, baseUrl: string, maxLinks: number): Promise<BrowserScenarioLinkCheckResult[]> {
+    const hrefs = await page.locator("a[href]").evaluateAll((anchors) =>
+      anchors.map((anchor) => (anchor as HTMLAnchorElement).href).filter(Boolean)
+    );
 
-function isSameOriginOrPublic(baseUrl: string, url: string): boolean {
-  try {
-    return new URL(baseUrl).origin === new URL(url).origin || new URL(url).hostname === "example.com";
-  } catch {
-    return false;
+    const uniqueLinks = Array.from(new Set(hrefs)).slice(0, maxLinks);
+    const results: BrowserScenarioLinkCheckResult[] = [];
+
+    for (const href of uniqueLinks) {
+      try {
+        const url = new URL(href, baseUrl).toString();
+        const response = await page.request.get(url, { timeout: 10000, failOnStatusCode: false });
+        const statusCode = response.status();
+        results.push({ url, status: statusCode >= 400 ? "failed" : "passed", statusCode });
+      } catch (error) {
+        results.push({ url: href, status: "failed", error: error instanceof Error ? error.message : String(error) });
+      }
+    }
+
+    return results;
+  }
+
+  private calculateRiskScore(failedSteps: number, skippedSteps: number, state: RuntimeState, brokenLinks: number): number {
+    const score =
+      failedSteps * 50 +
+      skippedSteps * 5 +
+      state.consoleErrors.length * 10 +
+      state.pageErrors.length * 15 +
+      state.failedRequests.length * 10 +
+      brokenLinks * 10;
+
+    return Math.min(100, score);
+  }
+
+  private safeFileName(value: string): string {
+    return value.toLowerCase().replace(/[^a-z0-9-_]+/g, "-").replace(/^-+|-+$/g, "") || "screenshot";
   }
 }
 
-function safeName(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-|-$/g, "") || "screenshot";
-}
-
-function calculateRiskScore(input: {
-  failedSteps: number;
-  skippedSteps: number;
-  consoleErrors: number;
-  pageErrors: number;
-  failedRequests: number;
-  brokenLinks: number;
-}): number {
-  return Math.min(
-    100,
-    input.failedSteps * 25 +
-      input.skippedSteps * 5 +
-      input.pageErrors * 20 +
-      input.consoleErrors * 8 +
-      input.failedRequests * 5 +
-      input.brokenLinks * 10
-  );
-}

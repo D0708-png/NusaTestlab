@@ -76,14 +76,16 @@ export class BrowserScenarioReportWriter {
       lines.push("No issues detected.");
     }
 
-    if (result.linkChecks.length > 0) {
+    const linkChecks = result.linkChecks ?? [];
+
+    if (linkChecks.length > 0) {
       lines.push("");
       lines.push("## Link Checks");
       lines.push("");
       lines.push("| URL | Status | Status Code | Error |");
       lines.push("|---|---|---:|---|");
 
-      for (const link of result.linkChecks) {
+      for (const link of linkChecks) {
         lines.push(
           `| ${escapeMd(link.url)} | ${escapeMd(link.status)} | ${link.statusCode ?? "-"} | ${escapeMd(link.error ?? "-")} |`
         );
@@ -97,3 +99,4 @@ export class BrowserScenarioReportWriter {
 function escapeMd(value: string): string {
   return value.replace(/\|/g, "\\|").replace(/\r?\n/g, " ");
 }
+
